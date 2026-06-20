@@ -15,8 +15,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mysqli zip gd bcmath exif \
     && rm -rf /var/lib/apt/lists/*
 
-# Apache: activar mod_rewrite y apuntar el DocumentRoot a /public
-RUN a2enmod rewrite
+# Apache: dejar un solo MPM (prefork) + mod_rewrite, DocumentRoot a /public
+RUN a2dismod mpm_event 2>/dev/null || true; \
+    a2dismod mpm_worker 2>/dev/null || true; \
+    a2enmod mpm_prefork rewrite
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 # Composer (copiado desde la imagen oficial)

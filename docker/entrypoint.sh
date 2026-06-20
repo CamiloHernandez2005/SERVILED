@@ -8,8 +8,8 @@ set -e
 sed -i "s/^Listen 80$/Listen ${PORT}/" /etc/apache2/ports.conf
 sed -i "s/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/" /etc/apache2/sites-available/000-default.conf
 
-# Enlace de almacenamiento para imágenes (si no existe)
-php artisan storage:link 2>/dev/null || true
+# Enlace de almacenamiento para imágenes (si no existe; ignora si ya está)
+php artisan storage:link >/dev/null 2>&1 || true
 
 # Arranca Apache en primer plano
 exec apache2-foreground
