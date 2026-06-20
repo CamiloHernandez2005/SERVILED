@@ -1,0 +1,335 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap");
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: "Oswald", sans-serif;
+    letter-spacing: 2px;
+}
+html{
+    height: 100%;
+}
+
+
+body {
+    position: relative;
+    padding-bottom: 10em;
+    min-height: 100vh;
+    margin-left: 5rem;
+    margin-top: 5rem;
+    transition: margin-left 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+header {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    position:fixed;
+    background-color: #fff;
+    top: 0;
+    left: 5rem;
+    right: 0;
+    z-index: 200;
+    border-bottom: 6px solid #f5b50a;
+    transition: left 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+/* El menú abierto empuja el header para que la hamburguesa quede visible */
+.body_move header {
+    left: 250px;
+}
+
+/* Titulo de la barra superior (marca) */
+.titulo h1 {
+    color: #0b2742;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin: 0;
+}
+.titulo small {
+    color: #f5b50a;
+    font-weight: 600;
+}
+
+/* Bloque de usuario/rol en la barra superior (layout y responsive con Bootstrap) */
+.user__info {
+    border-left: 3px solid #f5b50a;
+    padding-left: 12px;
+}
+.user__info i {
+    font-size: 2.2rem;
+    color: #0b2742;
+}
+.user__name {
+    color: #0b2742;
+    font-weight: 600;
+    line-height: 1.1;
+}
+.user__role {
+    color: #f5b50a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+.icon__menu {
+    width: 100px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(10px);
+    margin-right: 1rem;
+    margin-top: 0.5rem;
+}
+
+.icon__menu i {
+    font-size: 30px;
+    cursor: pointer;
+    position: static;
+}
+
+.logos {
+    /* Se quita el ancho para que la imagen se recoga para cuendo se cierra la barra lateral */
+    width: 190px;
+    /* height: 200px; */
+    margin-left: 2rem;
+}
+.option h4, .option img, .name__page {
+    transition: opacity 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-top: -0.3rem;
+    margin-right: 1rem;
+}
+.menu__side {
+    width: 80px;
+    height: 100%;
+    background-color: #0b2742;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: white;
+    font-size: 18px;
+    z-index: 300;
+    overflow: hidden;
+    overflow-y: scroll;
+    border-right: 20px solid rgba(22, 40, 77, 0);
+    transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+/*Ocultar scroll para chrome, safari y opera*/
+.menu__side::-webkit-scrollbar {
+    display: none;
+}
+
+/*Ocultar scroll para IE, Edge y Firefox*/
+.menu__side {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.name__page {
+    /* padding: 20px 30px; */
+    display: flex;
+    align-items: center;
+    /* margin-top: 10px; */
+}
+
+.option i {
+    font-size: 1.5rem;
+}
+.options__menu {
+    padding: 15px 25px;
+}
+
+.options__menu a {
+    color: #ffffffb2;
+    cursor: default;
+    display: block;
+    position: relative;
+    transition: color 300ms;
+    text-decoration: none;
+}
+
+.options__menu a:hover {
+    color: white;
+}
+
+.options__menu .option {
+    padding: 15px 0px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.options__menu .option i {
+    width: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.options__menu .option h4 {
+    font-weight: 200;
+    cursor: pointer;
+}
+
+a.selected {
+    color: #fff;
+}
+
+.selected:before {
+    content: "";
+    width: 3px;
+    height: 80%;
+    background: #f5b50a;
+    position: absolute;
+    top: 10%;
+    left: -30px;
+}
+
+.li{
+    font-size: 1.2rem;
+    margin-bottom: -1px;
+}
+.option h4, .option img, .name__page {
+    transition: opacity 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+.online{
+    width: 100%;
+    border-bottom: 2px solid #f5b50a;
+    border-bottom-left-radius: 5px;
+    border-end-end-radius: 5px ;
+    margin-bottom: 1px;
+}
+
+/*Clases para usar en JavaScript*/
+
+.body_move {
+    margin-left: 250px;
+}
+
+.menu__side_move {
+    width: 250px;
+}
+
+@media screen and (max-width: 760px) {
+    .body_move {
+        margin-left: 0px;
+    }
+
+    .menu__side_move {
+        width: 80px;
+        left: -80px;
+    }
+
+    /* En móvil la barra se oculta, el header ocupa todo el ancho */
+    header,
+    .body_move header {
+        left: 0;
+    }
+
+}
+/* Separador para la vista de roles */
+.separador_usuarios{
+    padding-top: 2rem;
+}
+
+/* Estilos para el boton de accesibilidad */
+.icono_accesibilidad{
+    color: #0b2742
+}
+
+/* Buscador de DataTables con los botones de exportar al lado */
+.dt-search {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+.dt-search label {
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    margin-bottom: 0;
+}
+.js-dt-export {
+    margin-bottom: 0;
+}
+.accesibilidad {
+    border: none;
+    position: fixed;
+    right: 5rem;
+}
+.header-button.btn.btn-outline-secondary.dropdown-toggle:hover{
+    background-color: white;
+}
+
+.header-button.btn.btn-outline-secondary.dropdown-toggle.dropdown-toggle-split::after {
+    border-top-color: #f5b50a;
+}
+.dropdown-menu li:hover{
+    background-color: #fff;
+}
+
+.bread_crumb{
+    border: 1px solid #efebeb;
+    border-radius: 10px;
+    background-color: #efebeb;
+    margin: auto;
+    margin-top: 6rem;
+    width: 99%;
+    padding-left: 2rem;
+    padding-top: 1rem;
+    font-size: 25px;
+}
+.mensaje_Rol{
+    /* border: 2px solid black; */
+    width: 50%;
+    margin: auto;
+    text-align: center;
+    /* margin-left: 40rem; */
+}
+.texto_noRol{
+    padding-top: 5rem;
+}
+.img_rol{
+    /* border: 2px solid black; */
+    width: 500px;
+}
+#userwayAccessibilityIcon{
+    margin-right: 4rem;
+}
+
+.transparent-input {
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    margin-top: -5px;
+    margin-left: -1rem;
+    color: black; /* Puedes ajustar el color del texto si lo prefieres */
+}
+
+.transparent-input:focus {
+    outline: none; /* Quitar el borde al enfocarse */
+}
+.InputBuscarUsuario{
+    width: 30rem;
+}
+/* Quitar las flechas de los campos de tipo number */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Quitar las flechas de los campos de tipo number en Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+

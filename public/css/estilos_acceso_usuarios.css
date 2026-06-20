@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap");
+.log-modify {
+  font-size: 50px;
+  padding-top: 0.6%;
+}
+
+#linea1 {
+  background-color: #004080;
+  border: none;
+}
+.logos {
+  width: 8rem;
+  margin-left: 2rem;
+}
+
+.container {
+  margin: 1.2% 2.5%;
+  border: 5px solid #004080;
+  border-radius: 1.7%;
+  width: 95%;
+  background-color: rgb(253, 254, 255);
+  height: 47.5rem;
+}
+
+.container_0 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.cuadros {
+  width: 30rem;
+  height: 20rem;
+  border: 2px solid black;
+  margin: 2rem 1rem;
+  border-radius: 2rem;
+  transition: all 2s ease;
+  background-color: rgb(252, 252, 252);
+}
+
+.cuadros:hover {
+  border-color: rgb(17, 17, 19);
+}
+
+.contenido {
+  margin-bottom: 2rem;
+}
+.contenido i {
+  font-size: 10rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10rem;
+  margin-top: 3rem;
+  transition: all 1s ease;
+}
+.contenido ion-icon {
+  font-size: 10rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10rem;
+  margin-top: 3rem;
+  transition: all 1s ease;
+  font-style: none;
+}
+a {
+  color: black;
+}
+.cuadros:hover {
+  background-color: rgb(196, 192, 196);
+}
+.contenido i:hover {
+  width: 20rem;
+  display: flex;
+  justify-content: center;
+}
+.contenido h4 {
+  text-align: center;
+}
+.titulo {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.settings-button i {
+  
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 70%;
+  position: fixed;
+  float: right;
+}

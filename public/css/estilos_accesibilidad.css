@@ -1,0 +1,70 @@
+/* Estilo para aumentar el tamaño de letra */
+.font-increase-1 {
+    font-size: 120%;
+}
+.font-increase-2 {
+    font-size: 130%;
+}
+.font-increase-3 {
+    font-size: 150%;
+}
+
+/* Estilo para disminuir el tamaño de letra */
+.font-decrease-1 {
+    font-size: 90%;
+}
+
+.font-decrease-2 {
+    font-size: 80%;
+}
+
+.font-decrease-3 {
+    font-size: 70%;
+}
+
+/* Estilo para el alto contraste */
+.alto-contraste{
+    filter: invert(1);
+    background-color: #ffffff;
+    color: #fdfdfd;
+}
+.alto-contraste body{
+    background-color: #e4e4e4;
+}
+
+.alto-contraste .logos{
+    filter: invert(100%);
+}
+.alto-contraste .menu__side{
+    background-color: #e4e4e4;
+    /* border-right: 1px solid rgb(104, 104, 104); */
+}
+
+.alto-contraste header {
+    background-color: #d8d8d8;
+    border-bottom-color: #b3b2b2;
+    color: rgb(0, 0, 0);
+}
+.alto-contraste .sales,
+.alto-contraste .visits,
+.alto-contraste .searches,
+.alto-contraste .recent-orders,
+.alto-contraste .user-profile,
+.alto-contraste .reminders {
+    --box-shadow: none;
+}
+.alto-contraste .icono_accesibilidad{
+    color: #454545;
+}
+.alto-contraste .header-button.btn.btn-outline-secondary.dropdown-toggle.dropdown-toggle-split::after {
+    border-top-color: #454545;
+}
+.alto-contraste .option{
+    color: rgb(33, 33, 33);
+}
+.alto-contraste .li{
+    color: rgb(33, 33, 33);
+}
+.alto-contraste .online{
+    background: rgb(33, 33, 33);
+}

@@ -1,0 +1,37 @@
+.input_contraseña_confirmar{
+    display: flex;
+}
+.input_contraseña_confirmar .ojo_contrasena{
+    padding-top: 0.7rem;
+    margin-left: -2rem;
+    cursor: pointer;
+}
+
+.input_nueva_contraseña{
+    display: flex;
+}
+.input_nueva_contraseña .ojo_contrasena{
+    padding-top: 0.7rem;
+    margin-left: -2rem;
+    cursor: pointer;
+}
+
+.input_confirmar_contraseña{
+    display: flex;
+}
+.input_confirmar_contraseña .ojo_contrasena{
+    padding-top: 0.7rem;
+    margin-left: -2rem;
+    cursor: pointer;
+}
+/* Quitar las flechas de los campos de tipo number */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Quitar las flechas de los campos de tipo number en Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
+

@@ -1,0 +1,86 @@
+@font-face {
+    font-family: "Oswald";
+    src: url('{{ storage_path('fonts/Oswald-Light.ttf') }}') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Oswald";
+    src: url('{{ storage_path('fonts/Oswald-Regular.ttf') }}') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: "Oswald";
+    src: url('{{ storage_path('fonts/Oswald-Bold.ttf') }}') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+body{
+    font-family: "Oswald";
+}
+.encabezado{
+    background: #0b2742;
+    color: white;
+    display: flex;
+    height: 12rem;
+    width: 100%;
+    border-bottom: 6px solid #f5b50a;
+}
+.imgPDF{
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+h2{
+    text-align: center;
+}
+.Title_Informe{
+    /* margin-top: 1rem; */
+    /* padding-top: 0.5rem; */
+}
+.NombreInforme{
+    text-align: center;
+    font-weight: 400;
+}
+.FerreteriaEx{
+    margin-top: -0.5rem;
+    text-align: center;
+    font-weight: 400;
+    font-size: 20px;
+}
+p{
+    text-align: center;
+}
+img{
+    width: 10rem;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+}
+td, th{
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+    font-weight: 400;
+}
+th{
+    background-color: #0b2742;
+    color: white;
+    border-bottom: 3px solid #f5b50a;
+}
+.bg-success {
+    color: #28a745;
+}
+.bg-danger {
+    color: #dc3545;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+tr:nth-child(2n+2) {
+    background-color: #f4f3f3; /* Fondo gris claro para cada dos filas */
+}

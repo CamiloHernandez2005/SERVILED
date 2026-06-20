@@ -1,0 +1,13 @@
+.desplegable_acciones{
+    margin-right: 10rem;
+    margin-top: 20rem;
+    box-shadow: 1px 4px 15px 0.6px;
+}
+.acciones_boton{
+    /* margin-left: 10rem; */
+    /* background-color: black; */
+    /* border: solid 5px black; */
+    height: 6rem;
+    width: 9rem;
+}
+

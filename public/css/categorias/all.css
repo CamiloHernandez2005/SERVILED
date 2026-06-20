@@ -1,0 +1,18 @@
+button a{
+    color: #fff;
+    text-decoration: none;
+}
+
+button a:hover{
+    color: #fff;
+    text-decoration: none;
+}
+
+.back{
+    color: #004080;
+}
+
+.back:hover{
+    color: #004080;
+}
+

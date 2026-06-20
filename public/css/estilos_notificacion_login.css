@@ -1,0 +1,126 @@
+:root {
+	--exito: #8cc79c;
+	--error: #cd555b;
+	--info: #1898c0;
+	--warning: #bc8c12;
+}
+
+
+/* notificacion */
+.contenedor-notificacion{
+	position: fixed;
+	left: 40px;
+	bottom: 40px;
+	width: 100%;
+	max-width: 450px;
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 20px;
+}
+
+.notificacion{
+	background: #ccc;
+	display: flex;
+	justify-content: space-between;
+	border-radius: 10px;
+	overflow: hidden;
+	animation-name: apertura;
+	animation-duration: 200ms;
+	animation-timing-function: ease-out;
+	position: relative;
+}
+
+.notificacion.exito{
+    background: var(--exito);
+}
+.notificacion.error{
+	background: var(--error);
+}
+
+.notificacion .contenido{
+	display: grid;
+	grid-template-columns: 30px auto;
+	align-items: center;
+	gap: 15px;
+	padding: 15px;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.notificacion .icono{
+	color: rgba(0, 0, 0, 0.95);
+}
+
+.notificacion .titulo{
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.notificacion .boton-cerrar{
+	background: rgba(0, 0, 0, 0.1);
+	border: none;
+	cursor: pointer;
+	padding: 0px 5px;
+	transition: 0.3s ease all;
+}
+
+.notificacion .boton-cerrar:hover{
+	background: rgba(0, 0, 0, 0.3);
+
+}
+
+.notificacion .boton-cerrar .icono{
+	width: 20px;
+	height: 20px;
+	color: white;
+}
+
+@keyframes apertura{
+	from{
+		transform: translateY(100px);
+		opacity: 0;
+	}
+	to{
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+.notificacion.cerrando{
+	animation-name: cierre;
+	animation-duration: 200ms;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+}
+
+@keyframes cierre{
+	from{
+		transform: translateX(0);
+	}
+	to{
+		transform: translateX(calc(-115% + 10px));
+	}
+}
+
+.notificacion.autoCierre::after{
+	content: '';
+	width: 100%;
+	height: 5px;
+	background: rgba(0, 0, 0, 0.5);
+	position: absolute;
+	bottom: 0;
+	animation-name: autoCierre;
+	animation-duration: 5s;
+	animation-timing-function: ease-out;
+	animation-fill-mode: forwards;
+}
+
+@keyframes autoCierre{
+	from{
+		width: 100%;
+	}
+	to{
+		width: 0%;
+	}
+}

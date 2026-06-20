@@ -1,0 +1,42 @@
+services:
+    # Aplicación Laravel (PHP + Apache)
+    app:
+        build: .
+        container_name: serviled_app
+        restart: unless-stopped
+        ports:
+            - "8080:80"          # Tu PC accede en http://localhost:8080
+        depends_on:
+            - db
+        environment:
+            DB_HOST: db          # nombre del servicio de la base de datos
+            DB_PORT: 3306
+            DB_DATABASE: db_hardware
+            DB_USERNAME: root
+            DB_PASSWORD: rootsecret
+        volumes:
+            - ./:/var/www/html
+            - /var/www/html/vendor   # mantiene el vendor del contenedor (Linux)
+        networks:
+            - serviled
+
+    # Base de datos MySQL
+    db:
+        image: mysql:8.0
+        container_name: serviled_db
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: rootsecret
+            MYSQL_DATABASE: db_hardware
+        ports:
+            - "3307:3306"        # opcional: conectar DBeaver a localhost:3307
+        volumes:
+            - dbdata:/var/lib/mysql
+        networks:
+            - serviled
+
+volumes:
+    dbdata:
+
+networks:
+    serviled:
