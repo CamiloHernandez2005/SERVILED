@@ -1,5 +1,5 @@
-# Imagen base: PHP 8.3 + Apache
-FROM php:8.3-apache
+# Imagen base: PHP 8.3 (CLI) — sin Apache, así evitamos los problemas de MPM
+FROM php:8.3-cli
 
 # Dependencias del sistema y extensiones de PHP que usa el proyecto
 RUN apt-get update && apt-get install -y \
@@ -15,11 +15,8 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mysqli zip gd bcmath exif \
     && rm -rf /var/lib/apt/lists/*
 
-# Apache: dejar UN SOLO MPM (prefork). Se eliminan todos los symlinks de MPM
-# y se habilita solo prefork (mod_php lo requiere) + mod_rewrite.
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf \
-    && a2enmod mpm_prefork rewrite
-COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+# El servidor integrado de PHP atiende varias peticiones a la vez
+ENV PHP_CLI_SERVER_WORKERS=4
 
 # Composer (copiado desde la imagen oficial)
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -32,9 +29,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-# Script de arranque (ajusta el puerto al $PORT de Railway)
+# Script de arranque (usa el $PORT de Railway)
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
-EXPOSE 80
+EXPOSE 8080
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
