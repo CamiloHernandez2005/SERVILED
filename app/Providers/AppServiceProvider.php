@@ -28,6 +28,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Si la app corre bajo HTTPS (Railway), forzar que todas las URLs
+        // (imágenes, CSS, enlaces) se generen con https y no se bloqueen.
+        if (str_starts_with((string) config('app.url'), 'https')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         Validator::extend('greater_than_zero', function ($attribute, $value, $parameters, $validator) {
             return $value > 0;
         });

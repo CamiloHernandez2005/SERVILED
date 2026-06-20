@@ -10,9 +10,12 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * '*' = confiar en el proxy de la plataforma (Railway) para que Laravel
+     * detecte HTTPS y genere las URLs (imágenes/CSS) con https, sin bloqueos.
+     *
      * @var array<int, string>|string|null
      */
-    protected $proxies;
+    protected $proxies = '*';
 
     /**
      * The headers that should be used to detect proxies.
