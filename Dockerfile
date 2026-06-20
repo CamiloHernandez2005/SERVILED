@@ -15,10 +15,10 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_mysql mysqli zip gd bcmath exif \
     && rm -rf /var/lib/apt/lists/*
 
-# Apache: dejar un solo MPM (prefork) + mod_rewrite, DocumentRoot a /public
-RUN a2dismod mpm_event 2>/dev/null || true; \
-    a2dismod mpm_worker 2>/dev/null || true; \
-    a2enmod mpm_prefork rewrite
+# Apache: dejar UN SOLO MPM (prefork). Se eliminan todos los symlinks de MPM
+# y se habilita solo prefork (mod_php lo requiere) + mod_rewrite.
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.load /etc/apache2/mods-enabled/mpm_*.conf \
+    && a2enmod mpm_prefork rewrite
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
 # Composer (copiado desde la imagen oficial)
