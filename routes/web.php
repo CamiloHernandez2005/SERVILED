@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\HomeController;
@@ -14,7 +13,6 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SalesController;
-use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
@@ -46,6 +44,7 @@ Route::post('/register', [RegisterController::class,'register']);
 Route::get('/login', [LoginController::class,'show']);
 Route::post('/login', [LoginController::class,'login']);
 Route::get('/home', [HomeController::class,'index'])->name('home');
+Route::post('/caja', [HomeController::class,'guardarCaja'])->name('caja.store');
 Route::get('/logout', [LogoutController::class,'logout']);
 
 //Rutas y funciones para el login y recuperar contraseña
@@ -74,10 +73,8 @@ Route::middleware(['auth'])->group(function () {
 
 // Funcion de Productos
 Route::resource('products', ProductController::class);
-Route::resource('category', CategoryProductController::class);
 Route::resource('brand', BrandController::class);
 Route::resource('units', MeasurementUnitController::class);
-Route::resource('categorySub', SubCategoryController::class);
 
 //Funcion Personas
 Route::resource('person', PersonController::class);
@@ -91,21 +88,16 @@ Route::resource('municipalities', MunicipalityController::class);
 Route::resource('sales', SalesController::class);
 Route::resource('credit-note-sales', CreditNoteSalesController::class);
 Route::get('/obtener-detalle-venta', [CreditNoteSalesController::class, 'obtenerDetalleVenta']);
-Route::get('/indexAll',[SubCategoryController::class, 'indexAll'])->name('indexAll');
 
 //Funcion Importar
 Route::post('/importbrands',[BrandController::class, 'importbrands'])->name('importbrands');
-Route::post('/importCategory',[CategoryProductController::class, 'importCategory'])->name('importCategory');
-Route::post('/importSubcategory',[SubCategoryController::class, 'importSubcategory'])->name('importSubcategory');
 Route::post('/importPerson', [PersonController::class, 'importPerson'])->name('importPerson');
 Route::post('/importProduct', [ProductController::class, 'importProduct'])->name('importProduct');
 
 // Descarga de template importar
 Route::get('/downloadFile',[TemplateController::class, 'downloadFile'])->name('downloadFile');
-Route::get('/downloadFileCategory',[TemplateController::class, 'downloadFileCategory'])->name('downloadFileCategory');
 Route::get('/downloadFileBrands',[TemplateController::class, 'downloadFileBrands'])->name('downloadFileBrands');
 Route::get('/downloadFileUnits',[TemplateController::class, 'downloadFileUnits'])->name('downloadFileUnits');
-Route::get('/downloadFileSubcategory',[TemplateController::class, 'downloadFileSubcategory'])->name('downloadFileSubcategory');
 Route::get('/downloadFileProduct',[TemplateController::class, 'downloadFileProduct'])->name('downloadFileProduct');
 
 //Informes
@@ -157,10 +149,6 @@ Route::resource('debit-note-supplier', App\Http\Controllers\DebitNoteSupplierCon
 Route::get('/downloadManualUser',[TemplateController::class,'downloadManualUser'])->name('downloadManualUser');
 Route::get('/downloadManualAdmin',[TemplateController::class,'downloadManualAdmin'])->name('downloadManualAdmin');
 
-
-//Ruta para traer la informacion de las subcategorias
-Route::get('/products/create/categoryProduct/{categoryProduct}/subCategories', [CategoryProductController::class,'subCategories']);
-Route::get('/products/{id}/edit/categoryProduct/{categoryProduct}/subCategories', [CategoryProductController::class,'subCategoriesEdit']);
 
 //Ruta para la gestion de usuario con el rol de Administrador
 Route::resource('usuarios', UsuariosController::class)->only(['index', 'edit', 'update'])->names('admin.usuarios');

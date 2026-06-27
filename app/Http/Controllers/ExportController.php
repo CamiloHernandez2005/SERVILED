@@ -7,13 +7,11 @@ use App\Exports\ProductsExport;
 use App\Exports\DebitNoteExport;
 use App\Exports\PeopleExport;
 use App\Exports\PurchaseExport;
-use App\Models\CategoryProduct;
 use App\Models\DetailPurchase;
 use App\Models\DetalleVenta;
 use App\Models\Product;
 use App\Models\Person;
 use App\Models\Sale;
-use App\Models\SubCategory;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SaleExport;
@@ -67,7 +65,7 @@ class ExportController extends Controller
         }
         $product = Product::all();
     
-        $sales = $query->with(['producto.categoryProduct', 'venta'])->get();
+        $sales = $query->with(['producto', 'venta'])->get();
         return view('reports.reportPriceHistoryProducts', compact('sales','product'));
     }
 
@@ -106,7 +104,7 @@ class ExportController extends Controller
         }
         $product = Product::all();
     
-        $sales = $query->with(['product.categoryProduct', 'product'])->get();
+        $sales = $query->with(['product'])->get();
         return view('reports.reportPriceHistoryProductsPurchase', compact('sales','product'));
     }
 

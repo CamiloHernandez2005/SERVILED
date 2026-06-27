@@ -144,7 +144,7 @@
                                                     <th>Descuento</th>
                                                     <th>%</th>
                                                     <th>Iva</th>
-                                                    <th>Precio unitario de venta</th>   
+                                                    <th>Subtotal</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

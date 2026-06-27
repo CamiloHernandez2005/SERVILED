@@ -23,30 +23,33 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-expanded="false">Acciones</button>
-                                        <ul class="dropdown-menu desplegable_acciones">
-                                            <div class="acciones_boton">
-                                                <li><a class="dropdown-item" href="{{ route('detail-purchases.create') }}">Crear Compra
-                                                </a></li>
-                                                <li><a class="dropdown-item"
-                                                    href="{{ route('debit-note-supplier.create') }}">Crear nota débito
-                                                </a></li>
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">Acciones</button>
+                                    <ul class="dropdown-menu desplegable_acciones">
+                                        <div class="acciones_boton">
+                                            <li><a class="dropdown-item" href="{{ route('detail-purchases.create') }}">Crear Compra
+                                            </a></li>
+                                            <li><a class="dropdown-item"
+                                                href="{{ route('debit-note-supplier.create') }}">Crear nota débito
+                                            </a></li>
 
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('debit-note-supplier.index') }}">Mostrar notas débito</a></li>
-                                            </div>
-                                        </ul>
-                                    </div>
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('debit-note-supplier.index') }}">Mostrar notas débito</a></li>
+                                        </div>
+                                    </ul>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <form action="{{ route('detail-purchases.index') }}" method="GET" class="d-flex align-items-center gap-2 mb-0">
+                                    <input type="text" name="filtervalue" class="form-control" placeholder="Buscar compra..." value="{{ request('filtervalue') }}">
+                                    <button type="submit" class="btn btn-dark">Buscar</button>
+                                    <a href="{{ route('detail-purchases.index') }}" class="btn btn-outline-secondary">Limpiar</a>
+                                </form>
+                                <div class="ms-auto d-flex align-items-center gap-2">
                                     <form action="{{ route('detail-purchases.index') }}" method="get"
-                                        class="d-flex align-items-center js-dt-export">
+                                        class="d-flex align-items-center js-dt-export mb-0">
 
-                                        {{-- Botones IMPORTAR Y EXPORTAR --}}
+                                        {{-- Botones EXPORTAR --}}
 
                                         <button type="button" class="btn btn-success ms-2 rounded" tooltip="tooltip"
                                             title="Excel" onclick="window.location.href='{{ route('export.purchase') }}'">
@@ -55,10 +58,6 @@
                                         <button type="button" class="btn btn-danger ms-2 rounded" tooltip="tooltip"
                                             title="PDF" onclick="window.open('{{ route('detail-purchases.pdf') }}','_blank')">
                                             <i class="fa-solid fa-file-pdf"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-warning ms-2 rounded" tooltip="tooltip"
-                                            title="Importar" data-bs-toggle="modal" data-bs-target="#importPerson">
-                                            <i class="fa-solid fa-folder-open"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -113,10 +112,10 @@
                                             @endphp
                                             @foreach ($detailPurchases as $detailPurchase)
                                                 <tr class="text-center">
-                                                    <td>{{ ++$i }}</td>
+                                                    <td>{{ $detailPurchase->id }}</td>
                                                     <td>{{ $detailPurchase->purchaseSupplier->invoice_number_purchase ?? 'Error: No se encontró el número de factura' }}</td>
                                                     <td>{{ $detailPurchase->date_purchase ?? 'Error: No se encontró la fecha de elaboración' }}</td>
-                                                    <td>{{ optional($detailPurchase->purchaseSupplier->person)->identification_type ?? 'Error: No se encontró el proveedor' }}</td>
+                                                    <td>{{ optional($detailPurchase->purchaseSupplier->person)->identification_type ?? 'Sin proveedor' }}</td>
                                                     <td>
                                                         @if ($detailPurchase->purchaseSupplier->person)
                                                             @if ($detailPurchase->purchaseSupplier->person?->person_type === 'Persona jurídica')
@@ -126,7 +125,7 @@
                                                                 {{ $detailPurchase->purchaseSupplier->person?->surname }}
                                                             @endif
                                                         @else
-                                                            {{ 'nn' }}
+                                                            {{ 'Sin proveedor' }}
                                                         @endif
                                                     </td>
                                                     <td>${{ number_format($detailPurchase->gross_total, 0, ',', '.') }}</td>
@@ -170,6 +169,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="mt-3 d-flex justify-content-center">
+                                        {{ $detailPurchases->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

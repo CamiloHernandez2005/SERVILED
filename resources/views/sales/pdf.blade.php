@@ -13,7 +13,7 @@
         </div>
         <img src="{{ public_path('img/logo.png') }}" class="imgPDF">
         <h1 class="FerreteriaEx">SERVILED</h1>
-        <p>NIT 9.524.275</p>
+        <p>NIT {{ config('company.nit') }}</p>
     </div>
 <br>
 <table>
@@ -30,6 +30,7 @@
             <th>Total Bruto</th>
             <th>Total Impuesto</th>
             <th>Total Neto</th>
+            <th>Ganancias</th>
     </thead>
     <tbody>
         @foreach ($ventas as $sale)
@@ -45,6 +46,7 @@
             <td>{{ number_format($sale->gross_totals, 0, ",", ".") }}</td>
             <td>{{ number_format($sale->taxes_total, 0, ",", ".") }}</td>
             <td>{{ number_format($sale->net_total, 0, ",", ".") }}</td>
+            <td>{{ number_format($sale->total_profit, 0, ",", ".") }}</td>
             {{--  Lo que se ha agregado  --}}
 
         </tr>

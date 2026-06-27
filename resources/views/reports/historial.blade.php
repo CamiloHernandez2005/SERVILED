@@ -33,30 +33,6 @@
                 <div class="card-body">
                     <div class="row border border-light p-2 mb-3 d-flex align-items-start">
                         <div class="col-12 col-md-6">
-                            <div class="form-group d-flex align-items-center">
-                                <div class="d-flex flex-column flex-grow-1 mr-2">
-                                    <label for="subcategoria" class="form-label">Subcategoría Del Producto</label>
-                                    <select name="subcategoria" id="subcategoria" class="selectpicker form-control" data-live-search="true" style="text-align-last:center;">
-                                        <option value="" selected disabled>Seleccione una Subcategoría</option>
-
-                                        @foreach($subCategories as $subCategory)
-                                            <option value="{{ $subCategory->id }}">{{ $subCategory->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group d-flex align-items-center mt-3">
-                                <div class="d-flex flex-column flex-grow-1 mr-2">
-                                    <label for="categoria" class="form-label">Categoría Del Producto</label>
-                                    <select name="categoria" id="categoria" class="selectpicker form-control" data-live-search="true" style="text-align-last:center;">
-                                        <option value="" selected disabled>Seleccione una categoría</option>
-                                        @foreach($categories as $category)
-                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                            </div>
                             <div class="form-group d-flex align-items-center mt-2">
                                 <div class="d-flex flex-column flex-grow-1 mr-2 mb-3">
                                     <label for="producto" class="form-label">Producto</label>

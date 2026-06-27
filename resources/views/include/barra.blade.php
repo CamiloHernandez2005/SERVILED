@@ -24,7 +24,17 @@
                 </div>
 
                 @auth
-                <div class="user__info d-flex align-items-center ms-auto me-2 me-md-4">
+                @php
+                    $cajaHoy = \App\Models\CashRegister::whereDate('date', \Illuminate\Support\Carbon::today())->first();
+                @endphp
+                <div class="user__info d-flex align-items-center ms-auto me-3" tooltip="tooltip" data-bs-placement="bottom" title="Valor de caja de hoy">
+                    <i class='bx bxs-wallet'></i>
+                    <div class="user__text d-none d-sm-flex flex-column ms-2">
+                        <span class="user__role">Caja</span>
+                        <span class="user__name">{{ $cajaHoy ? '$' . number_format($cajaHoy->amount, 0, ',', '.') : 'Sin registrar' }}</span>
+                    </div>
+                </div>
+                <div class="user__info d-flex align-items-center me-2 me-md-4">
                     <i class='bx bxs-user-circle'></i>
                     <div class="user__text d-none d-sm-flex flex-column ms-2">
                         <span class="user__name">{{ Auth::user()->name }}</span>

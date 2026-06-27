@@ -23,12 +23,9 @@ class Products extends Migration
             $table->string('photo')->nullable();
             $table->boolean('status')->default(True);
             $table->string('stock')->default(0);
-            $table->string('subcategory_product');
-            $table->bigInteger('category_products_id')->unsigned();
             $table->bigInteger('brands_id')->unsigned();
             $table->bigInteger('measurement_units_id')->unsigned();
             $table->timestamps();
-            $table->foreign('category_products_id')->references('id')->on('category_products')->onDelete("no action");
             $table->foreign('brands_id')->references('id')->on('brands')->onDelete("no action");
             $table->foreign('measurement_units_id')->references('id')->on('measurement_units')->onDelete("no action");
         });

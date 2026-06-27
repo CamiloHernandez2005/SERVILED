@@ -27,40 +27,40 @@
                             </h2>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
 
-                                    {{-- Regresar atrás--}}
-                                    <button type="button" class="btn btn-light">
-                                        <a href="{{ route('index_informes') }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M5 12l14 0" />
-                                                <path d="M5 12l6 6" />
-                                                <path d="M5 12l6 -6" />
-                                            </svg>
-                                        </a>
+                                {{-- Regresar atrás--}}
+                                <button type="button" class="btn btn-light">
+                                    <a href="{{ route('index_informes') }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-arrow-left" width="24" height="24"
+                                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M5 12l14 0" />
+                                            <path d="M5 12l6 6" />
+                                            <path d="M5 12l6 -6" />
+                                        </svg>
+                                    </a>
+                                </button>
+
+                                <form action="{{ route('municipalities.index') }}" method="GET" class="d-flex align-items-center gap-2 mb-0">
+                                    <input type="text" name="filtervalue" class="form-control" placeholder="Buscar municipio..." value="{{ request('filtervalue') }}">
+                                    <button type="submit" class="btn btn-dark">Buscar</button>
+                                </form>
+
+                                <div class="ms-auto d-flex align-items-center gap-2">
+                                    {{-- Botones IMPORTAR Y EXPORTAR --}}
+
+                                    <button type="button" class="btn btn-success rounded" tooltip="tooltip"
+                                        title="Excel" onclick="window.location.href='{{ route('export.person') }}'">
+                                        <i class="fa-solid fa-file-excel"></i>
                                     </button>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <form action="{{ route('municipalities.index') }}" method="get" class="d-flex align-items-center js-dt-export">
 
-                                        {{-- Botones IMPORTAR Y EXPORTAR --}}
-
-                                        <button type="button" class="btn btn-success ms-2 rounded" tooltip="tooltip"
-                                            title="Excel" onclick="window.location.href='{{ route('export.person') }}'">
-                                            <i class="fa-solid fa-file-excel"></i>
-                                        </button>
-
-                                        <button type="button" class="btn btn-danger ms-2 rounded" tooltip="tooltip"
-                                            title="PDF" onclick="window.location.href='{{ route('person.pdf') }}'">
-                                            <i class="fa-solid fa-file-pdf"></i>
-                                        </button>
-
-                                    </form>
+                                    <button type="button" class="btn btn-danger rounded" tooltip="tooltip"
+                                        title="PDF" onclick="window.location.href='{{ route('person.pdf') }}'">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -105,6 +105,9 @@
 
                                     </tbody>
                                 </table>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $municipalities->links() }}
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -45,18 +45,6 @@ Breadcrumbs::for('product.show', function (BreadcrumbTrail $trail, Product $prod
     $trail->push($producto->name_product, route('products.show', $producto));
 });
 
-//Productos > Crear categoria
-Breadcrumbs::for('category.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('products');
-    $trail->push('Categoria', route('category.index'));
-});
-
-//Productos > Craer categoria > Crear sub categorria
-Breadcrumbs::for('sub-category.index', function (BreadcrumbTrail $trail) {
-    $trail->parent('category.index');
-    $trail->push('Subcategoría', route('categorySub.index'));
-});
-
 //Productos > Crear marca
 Breadcrumbs::for('brand.index', function (BreadcrumbTrail $trail) {
     $trail->parent('products');

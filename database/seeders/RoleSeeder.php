@@ -26,16 +26,13 @@ class RoleSeeder extends Seeder
         //Permisos para las vistas del proyecto -> Administrador y Trabajador
         Permission::create(['name' => 'home'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'products'])->syncRoles([$role1,$role2]);
-        Permission::create(['name' => 'category'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'brand'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'units'])->syncRoles([$role1,$role2]);
-        Permission::create(['name' => 'categorySub'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'sales'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'credit-note-sales'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'person'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'customer'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'supplier'])->syncRoles([$role1,$role2]);
-        Permission::create(['name' => 'indexAll'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'purchase_supplier'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'detail-purchases'])->syncRoles([$role1,$role2]);
         Permission::create(['name' => 'debit-note-supplier'])->syncRoles([$role1,$role2]);

@@ -23,8 +23,8 @@ class MunicipalityController extends Controller
                 ->orWhere('name', 'like', '%' . $filterValue . '%');
         }
     
-        $municipalities = $query->get();
-    
+        $municipalities = $query->orderBy('id')->paginate(25)->withQueryString();
+
         return view('reports.municipalities', compact('municipalities'));
     }
     

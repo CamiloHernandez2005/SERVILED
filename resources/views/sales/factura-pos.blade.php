@@ -32,7 +32,7 @@
         <img src="{{ public_path('img/logo.png') }}" class="logo">
         <div class="empresa">SERVILED</div>
         <div class="eslogan">Materiales Eléctricos · Iluminación LED</div>
-        <div>NIT 9.524.275</div>
+        <div>NIT {{ config('company.nit') }}</div>
     </div>
 
     <hr>

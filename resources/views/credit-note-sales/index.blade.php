@@ -20,30 +20,35 @@
                                 </h2>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
 
-                                        {{-- Desplegable de opciones --}}
-                                        <div class="dropdown">
-                                            <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                                aria-expanded="false">Acciones</button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('sales.create') }}">Crear
-                                                        venta</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('credit-note-sales.create') }}">Crear
-                                                        nota crédito</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('credit-note-sales.index') }}">Mostrar
-                                                        nota crédito</a></li>
-                                            </ul>
-                                        </div>
+                                    {{-- Desplegable de opciones --}}
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                                            aria-expanded="false">Acciones</button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ route('sales.create') }}">Crear
+                                                    venta</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('credit-note-sales.create') }}">Crear
+                                                    nota crédito</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('credit-note-sales.index') }}">Mostrar
+                                                    nota crédito</a></li>
+                                        </ul>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
+
+                                    {{-- Buscador --}}
+                                    <form action="{{ route('credit-note-sales.index') }}" method="GET" class="d-flex align-items-center gap-2 mb-0">
+                                        <input type="text" name="filtervalue" class="form-control" placeholder="Buscar nota crédito..." value="{{ request('filtervalue') }}">
+                                        <button type="submit" class="btn btn-dark">Buscar</button>
+                                    </form>
+
+                                    <div class="ms-auto d-flex align-items-center gap-2">
                                         <form action="{{ route('credit-note-sales.index') }}" method="get"
-                                            class="d-flex align-items-center js-dt-export">
+                                            class="d-flex align-items-center js-dt-export mb-0">
 
                                             {{-- Botones IMPORTAR Y EXPORTAR --}}
 
-                                            <button type="button" class="btn btn-success ms-2 rounded" tooltip="tooltip"
+                                            <button type="button" class="btn btn-success rounded" tooltip="tooltip"
                                                 title="Excel"
                                                 onclick="window.location.href='{{ route('export.creditnotesale') }}'">
                                                 <i class="fa-solid fa-file-excel"></i>
@@ -164,6 +169,9 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                            <div class="mt-3 d-flex justify-content-center">
+                                                {{ $ventasFiltradas->links() }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

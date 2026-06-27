@@ -24,9 +24,22 @@ class PersonController extends Controller
      */
     public function index(Request $request)
     {
-        // La búsqueda, orden y paginación las maneja DataTables en el navegador,
-        // por eso traemos todos los registros (con su municipio para evitar N+1).
-        $people = Person::with('municipality')->get();
+        // Búsqueda y paginación del lado del servidor (con su municipio para evitar N+1).
+        $filtervalue = $request->input('filtervalue');
+
+        $people = Person::with('municipality')
+            ->when($filtervalue, function ($query) use ($filtervalue) {
+                return $query->where('identification_number', 'like', "%{$filtervalue}%")
+                    ->orWhere('first_name', 'like', "%{$filtervalue}%")
+                    ->orWhere('other_name', 'like', "%{$filtervalue}%")
+                    ->orWhere('surname', 'like', "%{$filtervalue}%")
+                    ->orWhere('second_surname', 'like', "%{$filtervalue}%")
+                    ->orWhere('company_name', 'like', "%{$filtervalue}%")
+                    ->orWhere('rol', 'like', "%{$filtervalue}%");
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(25)
+            ->withQueryString();
 
         return view('person.index', [
             'people' => $people,

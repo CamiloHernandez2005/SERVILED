@@ -1,7 +1,11 @@
 new DataTable('#datatable',{
     responsive: true,
     autoWidth:false,
-    searching:true,
+    searching:false,
+    paging:false,
+    info:false,
+    lengthChange:false,
+    ordering:false,
     initComplete: function () {
         // Mueve los botones de exportar (Excel/PDF) al lado del buscador de DataTables
         var container = this.api().table().container();

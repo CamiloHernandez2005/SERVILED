@@ -35,7 +35,7 @@
                                         <select id="product_id" name="product_id" class="selectpicker form-control ml-2" data-live-search="true" aria-placeholder="Seleccione el producto" style="text-align-last:center;">
                                             <option value="">Seleccione el producto</option>
                                             @foreach ($product as $item)
-                                                <option value="{{ $item->id }}-{{ $item->categoryProduct->name }}-{{ ($item->status == 1) ? 'Activo' : 'Inactivo' }}">{{ $item->name_product }}</option>
+                                                <option value="{{ $item->id }}-{{ ($item->status == 1) ? 'Activo' : 'Inactivo' }}">{{ $item->name_product }}</option>
                                             @endforeach
                                         </select>
                                         @error('product_id')
@@ -78,13 +78,7 @@
                         <div class="col-12 col-md-6">
                             <div class="form-group d-flex align-items-center">
                                 <div class="d-flex flex-column flex-grow-1 mr-2 mb-2">
-                                    <label for="categoria" class="form-label fw-bolder">Categoría Del Producto</label>
-                                    <input disabled id="name" name="name" class="selectpicker form-control" data-live-search="true" style="text-align-last:left;"></input>
-                                </div>
-                            </div>
-                            <div class="form-group d-flex align-items-center">
-                                <div class="d-flex flex-column flex-grow-1 mr-2 mb-2">
-                                    <label for="subcategoria" class="form-label fw-bolder">Estado</label>
+                                    <label for="status" class="form-label fw-bolder">Estado</label>
                                     <input disabled id="status" name="status" class="selectpicker form-control" data-live-search="true" style="text-align-last:left;"></input>
                                 </div>
                             </div>
@@ -96,8 +90,6 @@
                             <table class="table table-striped table-hover w-100" id="datatable">
                                 <thead class="table-dark" >
                                     <tr class="text-center">
-                                        <th>Categoría</th>
-                                        <th>Subcategoría</th>
                                         <th>Nombre del producto</th>
                                         <th>Referencia de Fabrica</th>
                                         <th>N° Factura</th>
@@ -113,12 +105,6 @@
                                 <tbody>
                                     @foreach ($sales as $ventas)
                                     <tr>
-                                        <td class="text-center">
-                                            {{$ventas->producto->categoryProduct->name }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{$ventas->producto->subcategory_product }}
-                                        </td>
                                         <td class="text-center">
                                             {{$ventas->producto->name_product }}
                                         </td>
@@ -174,8 +160,7 @@
     function mostrarValores() {
         let dataProducto = document.getElementById('product_id').value.split('-');
         console.log(dataProducto)
-        $('#name').val(dataProducto[1]);
-        $('#status').val(dataProducto[2]);
+        $('#status').val(dataProducto[1]);
     }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>

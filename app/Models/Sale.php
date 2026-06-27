@@ -16,7 +16,7 @@ class Sale extends Model
 
     public function productos(){
         return $this->belongsToMany(Product::class)->withTimestamps()
-        ->withPivot('references','amount','selling_price','discounts','tax', 'iva');
+        ->withPivot('references','amount','selling_price','purchase_price','discounts','tax', 'iva', 'profit');
     }
 
     public function detallesVentas()

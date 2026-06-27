@@ -34,7 +34,8 @@ class DetailPurchaseController extends Controller
         ->groupBy('purchase_suppliers_id')
         ->pluck('id');
 
-    $detailPurchases = DetailPurchase::whereIn('id', $uniqueDetailPurchaseIds)
+    $detailPurchases = DetailPurchase::with(['purchaseSupplier.person', 'product'])
+        ->whereIn('id', $uniqueDetailPurchaseIds)
         ->when($filtervalue, function ($query) use ($filtervalue, $status) {
             $filtervalue = strtolower($filtervalue); 
             return $query->whereRaw('LOWER(description) LIKE ?', ['%' . $filtervalue . '%'])
@@ -62,7 +63,9 @@ class DetailPurchaseController extends Controller
                     }
                 });
         })
-        ->get();
+        ->orderBy('id', 'desc')
+        ->paginate(25)
+        ->withQueryString();
 
     return view('detail-purchase.index', compact('detailPurchases'));
 }

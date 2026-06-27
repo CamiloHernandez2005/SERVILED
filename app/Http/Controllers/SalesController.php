@@ -20,8 +20,8 @@ class SalesController extends Controller
      */
     public function index(Request $request)
     {
-        $ventas = Sale::query();
-    
+        $ventas = Sale::query()->with('cliente');
+
         if ($request->filled('filtervalue')) {
             $filtro = $request->input('filtervalue');
     
@@ -45,12 +45,28 @@ class SalesController extends Controller
                       });
             });
         }
-    
-        // Obtener los resultados de la consulta
-        $ventasFiltradas = $ventas->get();
-    
+
+        // Filtro por rango de fechas (sobre la fecha de la venta)
+        $fechaInicio = $request->input('fecha_inicio');
+        $fechaFin = $request->input('fecha_fin');
+
+        if ($fechaInicio && $fechaFin) {
+            $ventas->whereBetween('dates', [$fechaInicio, $fechaFin]);
+        } elseif ($fechaInicio) {
+            $ventas->whereDate('dates', '>=', $fechaInicio);
+        } elseif ($fechaFin) {
+            $ventas->whereDate('dates', '<=', $fechaFin);
+        }
+
+        // Totales del conjunto filtrado (antes de paginar)
+        $totalVentas = (clone $ventas)->sum('net_total');
+        $totalGanancias = (clone $ventas)->sum('total_profit');
+
+        // Obtener los resultados de la consulta paginados
+        $ventasFiltradas = $ventas->orderBy('id', 'desc')->paginate(25)->withQueryString();
+
         // Devolver la vista con las ventas filtradas
-        return view('sales.index', compact('ventasFiltradas'));
+        return view('sales.index', compact('ventasFiltradas', 'totalVentas', 'totalGanancias'));
     }
 
     /**
@@ -90,22 +106,34 @@ class SalesController extends Controller
 
         $siseArray = count($arrayProducto_id);
             $cont = 0;
+            $totalGanancias = 0;
 
         while($cont < $siseArray){
+                $producto = Product::find($arrayProducto_id[$cont]);
+
+                $cantidad = intval($arrayCantidad[$cont]);
+                $precioVenta = (float) $arrayPrecioVenta[$cont];
+                $precioCompra = (float) $producto->purchase_price;
+                $descuento = (float) $arrayDescuento[$cont];
+
+                // Ganancia = (precio_venta * cantidad) - descuentos - (precio_compra * cantidad)
+                $ganancia = ($precioVenta * $cantidad) - $descuento - ($precioCompra * $cantidad);
+                $totalGanancias += $ganancia;
+
             $venta->productos()->syncWithoutDetaching([
                 $arrayProducto_id[$cont] => [
                     'amount' => $arrayCantidad[$cont],
                     'references' => $arrayReferencia[$cont],
                     'selling_price' => $arrayPrecioVenta[$cont],
+                    'purchase_price' => $precioCompra,
                     'discounts' => $arrayDescuento[$cont],
                     'tax' => $arrayImpuesto[$cont],
-                    'iva' =>  $arrayimpuestoval[$cont]
+                    'iva' =>  $arrayimpuestoval[$cont],
+                    'profit' => $ganancia
                 ]
              ]);
 
-                $producto = Product::find($arrayProducto_id[$cont]);
                 $stockActual = $producto->stock;
-                $cantidad = intval($arrayCantidad[$cont]);
 
                 DB::table('products')
                 ->where('id',$producto->id)
@@ -115,6 +143,8 @@ class SalesController extends Controller
 
                 $cont++;
         }
+
+            $venta->update(['total_profit' => $totalGanancias]);
 
             DB::commit();
 

@@ -24,10 +24,8 @@ class ProductImport implements ToModel, WithHeadingRow, WithBatchInserts, WithCh
             'factory_reference' => $row['referencia_fabrica'],
             'classification_tax' => $row['clasificacion_tributaria'],
             'selling_price' => $row['precio_venta'],
-            'subcategory_product' => $row['nombre_subcategoria'],
-            'category_products_id' => $row['id_categoria'],
-            'brands_id' => $row['id_marca'],
-            'measurement_units_id' => $row['id_unidad_medida'],
+            'brands_id' => $row['id_marca'] ?: null,
+            'measurement_units_id' => $row['id_unidad_medida'] ?: null,
         ]);
     }
 

@@ -134,8 +134,9 @@
                         <th>Precio unitario</th>
                         <th>Descuento</th>
                         <th>%</th>
-                        <th>IVA</th> 
-                        <th>Precio unitario de venta</th>
+                        <th>IVA</th>
+                        <th>Subtotal</th>
+                        <th>Ganancia</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -151,32 +152,37 @@
                         <td class="td-subtotal">
                             ${{ number_format(($item->pivot->amount) * ($item->pivot->selling_price), 0, ',', '.') }}
                         </td>
+                        <td class="td-profit">${{ number_format($item->pivot->profit, 0, ',', '.') }}</td>
                     </tr>
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="7"></th>
+                        <th colspan="8"></th>
                     </tr>
                     <tr>
-                        <th colspan="7">Subtotal:</th>
+                        <th colspan="8">Subtotal:</th>
                         <th id="th-suma"></th>
                     </tr>
                     <tr>
-                        <th colspan="7">Total Descuentos:</th>
+                        <th colspan="8">Total Descuentos:</th>
                         <th id="th-descuentos"></th>
                     </tr>
                     <tr>
-                        <th colspan="7">Total Bruto:</th>
+                        <th colspan="8">Total Bruto:</th>
                         <th id="th-gross"></th>
                     </tr>
                     <tr>
-                        <th colspan="7">IVA:</th>
+                        <th colspan="8">IVA:</th>
                         <th id="th-igv"></th>
                     </tr>
                     <tr>
-                        <th colspan="7">Total Factura:</th>
+                        <th colspan="8">Total Factura:</th>
                         <th id="th-total"></th>
+                    </tr>
+                    <tr>
+                        <th colspan="8">Total Ganancias:</th>
+                        <th>${{ number_format($sale->total_profit, 0, ',', '.') }}</th>
                     </tr>
                 </tfoot>
             </table>

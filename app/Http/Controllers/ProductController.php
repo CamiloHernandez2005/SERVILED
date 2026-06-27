@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Imports\ProductImport;
 use App\Models\Brand;
-use App\Models\CategoryProduct;
 use App\Models\MeasurementUnit;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -29,9 +28,9 @@ class ProductController extends Controller
     {
         $filtervalue = $request->input('filtervalue');
         $activeCheck = $request->input('check');
-        $categoryId = $request->input('category_filter');
 
         $productos = Product::query()
+            ->with(['brand', 'measurementUnit'])
             ->when($filtervalue, function ($query) use ($filtervalue) {
                 return $query->where('name_product', 'like', '%' . $filtervalue . '%')
                     ->orWhere('description_long', 'like', '%' . $filtervalue . '%')
@@ -53,16 +52,14 @@ class ProductController extends Controller
                         }
                     });
             })
-            ->when($categoryId, function ($query) use ($categoryId) {
-                return $query->where('category_products_id', $categoryId);
-            })
             ->when($activeCheck, function ($query) use ($activeCheck) {
                 return $query->where('status', true);
             })
-            ->get();
+            ->orderBy('name_product', 'asc')
+            ->paginate(25)
+            ->withQueryString();
 
-        $categories = CategoryProduct::all();
-        return view('product.index', compact('productos', 'categories'));
+        return view('product.index', compact('productos'));
     }
 
     /**
@@ -73,10 +70,9 @@ class ProductController extends Controller
     public function create()
     {
         $producto = new Product();
-        $categorias = CategoryProduct::where('status', 1)->pluck('name', 'id');
         $marcas = Brand::where('status', 1)->pluck('name', 'id');
         $unidades = MeasurementUnit::where('status', 1)->pluck('name', 'id')->prepend('Selecciona la unidad', '');
-        return view('product.create', compact('producto', 'categorias', 'marcas', 'unidades'));
+        return view('product.create', compact('producto', 'marcas', 'unidades'));
     }
 
 
@@ -94,10 +90,8 @@ class ProductController extends Controller
             'factory_reference' => 'required|string|max:100|unique:products,factory_reference',
             'classification_tax' => 'required|string|max:100',
             'selling_price' => 'required|numeric|greater_than_zero',
-            'subcategory_product' => 'required|string|max:100',
-            'category_products_id' => 'required|max:100',
-            'brands_id' => 'required|max:100',
-            'measurement_units_id' => 'required|max:100',
+            'brands_id' => 'nullable|max:100',
+            'measurement_units_id' => 'nullable|max:100',
             'photo' => 'nullable|max:10000|mimes:jpg,png,jpeg',
         ];
         $mensaje = [
@@ -110,10 +104,6 @@ class ProductController extends Controller
             'selling_price.required' => 'Escriba el precio de venta',
             'selling_price.numeric' => 'El precio de venta debe ser numérico',
             'selling_price.greater_than_zero' => 'El precio de venta debe ser mayor a 0',
-            'subcategory_product.required' => 'Selecione la Sub Categoría',
-            'category_products_id.required' => 'Selecione la Categoría',
-            'brands_id.required' => 'Selecione la marca',
-            'measurement_units_id.required' => 'Selecione la Unidad de Medida',
         ];
         $this->validate($request, $campos, $mensaje);
 
@@ -154,11 +144,10 @@ class ProductController extends Controller
     public function edit($id)
     {
         $producto = Product::find($id);
-        $categorias = CategoryProduct::where('status', 1)->pluck('name', 'id');
         $marcas = Brand::where('status', 1)->pluck('name', 'id');
         $unidades = MeasurementUnit::where('status', 1)->pluck('name', 'id')->prepend('Selecciona la unidad', '');
 
-        return view('product.edit', compact('producto', 'categorias', 'marcas', 'unidades'));
+        return view('product.edit', compact('producto', 'marcas', 'unidades'));
     }
 
     /**
@@ -176,9 +165,8 @@ class ProductController extends Controller
             'factory_reference' => 'required|string|max:100|unique:products,factory_reference,' . $id,
             'classification_tax' => 'required|string|max:100',
             'selling_price' => 'required|numeric|greater_than_zero',
-            'category_products_id' => 'required|max:100',
-            'brands_id' => 'required|max:100',
-            'measurement_units_id' => 'required|max:100',
+            'brands_id' => 'nullable|max:100',
+            'measurement_units_id' => 'nullable|max:100',
             'photo' => 'nullable|max:10000|mimes:jpg,png,jpeg',
         ];
         $mensaje = [
@@ -191,9 +179,6 @@ class ProductController extends Controller
             'selling_price.required' => 'Escriba el precio de venta',
             'selling_price.numeric' => 'El precio de venta debe ser numérico',
             'selling_price.greater_than_zero' => 'El precio de venta debe ser mayor a 0',
-            'category_products_id.required' => 'Selecione la categoria',
-            'brands_id.required' => 'Selecione la marca',
-            'measurement_units_id.required' => 'Selecione la unidad de medida',
         ];
         $this->validate($request, $campos, $mensaje);
 

@@ -160,7 +160,7 @@ class DebitNoteExport implements FromCollection, WithHeadings, WithCustomStartCe
             $sheet->getStyle('A1')->getAlignment()->setWrapText(true);
             $sheet->getStyle('A1')->getFont()->getColor()->setARGB(Color::COLOR_WHITE); // Letra blanca
 
-            // Agregar "Ferretería La Excelencia" y "NIT 9.524.275" en celdas separadas
+            // Agregar "Ferretería La Excelencia" y "NIT 1.057.599.366" en celdas separadas
             $sheet->getDelegate()->mergeCells('A2:J2');
             $sheet->setCellValue('A2', 'SERVILED');
             $sheet->getStyle('A2')->getFont()->setSize(16); // Tamaño de letra para "Ferretería La Excelencia"
@@ -169,8 +169,8 @@ class DebitNoteExport implements FromCollection, WithHeadings, WithCustomStartCe
             $sheet->getStyle('A2')->getFont()->getColor()->setARGB(Color::COLOR_WHITE); // Letra blanca
 
             $sheet->getDelegate()->mergeCells('A3:J3');
-            $sheet->setCellValue('A3', 'NIT 9.524.275');
-            $sheet->getStyle('A3')->getFont()->setSize(14); // Tamaño de letra para "NIT 9.524.275"
+            $sheet->setCellValue('A3', 'NIT ' . config('company.nit'));
+            $sheet->getStyle('A3')->getFont()->setSize(14); // Tamaño de letra para "NIT 1.057.599.366"
             $sheet->getStyle('A3')->getFont()->setBold(false); // Ajustar a negrita
             $sheet->getStyle('A3')->getAlignment()->setWrapText(true);
             $sheet->getStyle('A3')->getFont()->getColor()->setARGB(Color::COLOR_WHITE); // Letra blanca

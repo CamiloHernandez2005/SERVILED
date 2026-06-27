@@ -80,45 +80,8 @@
                                                     </div>
                                                     <div class="col-sm-6 col-md-6 mb-3">
                                                         <div class="mb-3">
-                                                            <label for="category_id" class="form-label fw-bolder">
-                                                                {{ __('Categoría del producto') }}
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                            {{ Form::select('category_products_id', $categorias, $producto->category_products_id, [
-                                                                'class' => 'form-control selectpicker' . ($errors->has('category_products_id') ? ' is-invalid' : ''),
-                                                                'placeholder' => 'Seleccione la categoria',
-                                                                'data-size' => '5',
-                                                                'data-live-search' => 'true',
-                                                                'id' => 'categoryProduct',
-                                                            ]) }}
-                                                            {!! $errors->first('category_products_id', '<div class="invalid-feedback">:message</div>') !!}
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 col-md-6 mb-3">
-                                                        <div class="mb-3">
-                                                            <label for="category_id" class="form-label fw-bolder">
-                                                                {{ __('Subcategoría del producto') }}
-                                                                <span class="text-danger">*</span>
-                                                            </label>
-                                                            <select name="subcategory_product" id="subCategories"
-                                                                class="form-select @error('subcategory_product') is-invalid @enderror "
-                                                                data-live-search="true">
-                                                                <option
-                                                                    value="{{ isset($producto->subcategory_product) ? $producto->subcategory_product : old('subcategory_product') }} ">
-                                                                    Selecione una </option>
-                                                            </select>
-                                                            @error('subcategory_product')
-                                                                <div class="invalid-feedback">
-                                                                    {{ $message }}
-                                                                </div>
-                                                            @enderror
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-6 col-md-6 mb-3">
-                                                        <div class="mb-3">
                                                             <label class="form-label fw-bolder" for="unidades_id">
                                                                 {{ __('Unidad de medida') }}
-                                                                <span class="text-danger">*</span>
                                                             </label>
                                                             {{ Form::select('measurement_units_id', $unidades, $producto->measurement_units_id, [
                                                                 'class' =>
@@ -153,7 +116,6 @@
                                                     <div class="col-sm-6 col-md-6 mb-3">
                                                         <label class="form-label fw-bolder" for="tax_type">
                                                             {{ __('Marca del producto') }}
-                                                            <span class="text-danger">*</span>
                                                         </label>
                                                         {{ Form::select('brands_id', $marcas, $producto->brands_id, ['class' => 'form-control selectpicker' . ($errors->has('brands_id') ? ' is-invalid' : ''), 'placeholder' => 'Selecciona una marca', 'data-live-search' => 'true', 'data-size' => '5']) }}
                                                         {!! $errors->first('brands_id', '<div class="invalid-feedback">:message</div>') !!}
@@ -194,41 +156,6 @@
                 </div>
             </div>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const categoryProduct = document.getElementById('categoryProduct');
-                    const subCategories = document.getElementById('subCategories');
-
-                    const getsubCategories = async (category_id, selectedSubCategory = null) => {
-                        const response = await fetch(
-                            `/products/create/categoryProduct/${category_id}/subCategories`);
-                        const data = await response.json();
-                        let options = '';
-
-                        if (data.length === 0) {
-                            options = '<option style="color: red;">No hay subcategorías asociadas</option>';
-                        } else {
-                            data.forEach(element => {
-                                options +=
-                                    `<option value="${element.name}" ${selectedSubCategory === element.name ? 'selected' : ''}>${element.name}</option>`;
-                            });
-                        }
-
-                        subCategories.innerHTML = options;
-                    };
-
-                    window.onload = () => {
-                        const category_id = categoryProduct.value;
-                        const selectedSubCategory =
-                            '{{ isset($producto->subcategory_product) ? $producto->subcategory_product : '' }}';
-                        getsubCategories(category_id, selectedSubCategory);
-                    };
-
-                    categoryProduct.addEventListener('change', (e) => {
-                        getsubCategories(e.target.value);
-                    });
-                });
-            </script>
         </body>
 
         </html>

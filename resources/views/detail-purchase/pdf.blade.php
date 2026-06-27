@@ -13,7 +13,7 @@
         </div>
         <img src="{{ public_path('img/logo.png') }}" class="imgPDF">
         <h1 class="FerreteriaEx">SERVILED</h1>
-        <p>NIT 9.524.275</p>
+        <p>NIT {{ config('company.nit') }}</p>
     </div>
 <br>
 <table>
@@ -37,9 +37,9 @@
             <tr style="text-align: center;">
                 <td>{{$detailPurchase->date_purchase}}</td>
                 <td>{{$detailPurchase->purchaseSupplier->invoice_number_purchase}}</td>
-                <td>{{ optional($detailPurchase->purchaseSupplier->person)->identification_number ?? 'Error: No se encontró el proveedor' }}
+                <td>{{ optional($detailPurchase->purchaseSupplier->person)->identification_number ?? 'Sin proveedor' }}
                 </td>
-                <td>{{ optional($detailPurchase->purchaseSupplier->person)->identification_type ?? 'Error: No se encontró el proveedor' }}
+                <td>{{ optional($detailPurchase->purchaseSupplier->person)->identification_type ?? '' }}
                 </td>
                 <td>
                     @if($detailPurchase->purchaseSupplier->person?->person_type === 'Persona jurídica')

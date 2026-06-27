@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DetailPurchase;
-use App\Models\SubCategory;
-use App\Models\CategoryProduct;
 use App\Models\Product;
 use App\Models\Sale;
 
@@ -16,27 +14,21 @@ class HistorialMovimientoController extends Controller
         $detailPurchases = collect();
         $products = Product::all();
         $ventas = collect();
-        $subCategories = SubCategory::all();
-        $categories = CategoryProduct::all();
         $estados = ['Activo', 'Inactivo'];
         $resultados = collect();
-        $datos = collect(); 
+        $datos = collect();
         $fecha_inicio = null;
         $fecha_cierre = null;
-    
-        return view('reports.historial', compact('resultados', 'detailPurchases', 'products', 'ventas', 'subCategories', 'categories', 'estados', 'fecha_inicio', 'fecha_cierre', 'request', 'datos')); 
+
+        return view('reports.historial', compact('resultados', 'detailPurchases', 'products', 'ventas', 'estados', 'fecha_inicio', 'fecha_cierre', 'request', 'datos'));
         }
     
         public function buscarMovimientos(Request $request)
         {
             $products = Product::all();
-            $subCategories = SubCategory::all();
-            $categories = CategoryProduct::all();
             $estados = ['Activo', 'Inactivo'];
             $fecha_inicio = $request->input('fecha_inicio');
             $fecha_cierre = $request->input('fecha_cierre');
-            $subcategoria = $request->input('subcategoria');
-            $categoria = $request->input('categoria');
             $producto = $request->input('producto');
             $estado = $request->input('estado');
         
@@ -74,25 +66,7 @@ class HistorialMovimientoController extends Controller
                 $detallesCompras = $detallesComprasQuery->get();
                 $ventas = $ventasQuery->get();
             }
-            if ($request->isMethod('post') && $categoria) {
-                $detallesComprasQuery = $detallesComprasQuery->whereHas('product', function ($query) use ($categoria) {
-                    $query->where('category_products_id', $categoria);
-                });
-                $ventasQuery = $ventasQuery->whereHas('productos', function ($query) use ($categoria) {
-                    $query->where('category_products_id', $categoria);
-                });
-            }
-        
-            if ($request->isMethod('post') && $subcategoria) {
-                $subcategoriaNombre = SubCategory::find($subcategoria)->name;
-                $detallesComprasQuery = $detallesComprasQuery->whereHas('product', function ($query) use ($subcategoriaNombre) {
-                    $query->where('subcategory_product', $subcategoriaNombre);
-                });
-                $ventasQuery = $ventasQuery->whereHas('productos', function ($query) use ($subcategoriaNombre) {
-                    $query->where('subcategory_product', $subcategoriaNombre);
-                });
-            }
-        
+
             $detallesCompras = $detallesComprasQuery->get();
             $ventas = $ventasQuery->get();
         
@@ -150,7 +124,7 @@ class HistorialMovimientoController extends Controller
         }
     }        
         
-            return view('reports.historial', compact('products', 'subCategories', 'categories', 'estados', 'fecha_inicio', 'fecha_cierre', 'request', 'datos'));
+            return view('reports.historial', compact('products', 'estados', 'fecha_inicio', 'fecha_cierre', 'request', 'datos'));
         }
     
 public function limpiar(Request $request)
@@ -158,15 +132,13 @@ public function limpiar(Request $request)
     $detailPurchases = collect();
     $products = Product::all();
     $ventas = collect();
-    $subCategories = SubCategory::all();
-    $categories = CategoryProduct::all();
     $estados = ['Activo', 'Inactivo'];
     $resultados = collect();
     $fecha_inicio = null;
     $fecha_cierre = null;
-    $datos = [];  
+    $datos = [];
 
-    return view('reports.historial', compact('resultados', 'detailPurchases', 'products', 'ventas', 'subCategories', 'categories', 'estados', 'fecha_inicio', 'fecha_cierre', 'request', 'datos'));  
+    return view('reports.historial', compact('resultados', 'detailPurchases', 'products', 'ventas', 'estados', 'fecha_inicio', 'fecha_cierre', 'request', 'datos'));
 }
 
 }

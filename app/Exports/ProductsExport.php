@@ -25,7 +25,6 @@ class ProductsExport implements FromCollection, WithHeadings, WithCustomStartCel
     public function collection()
     {
         return Product::with([
-            'categoryProduct:id,name',
             'brand:id,name',
             'measurementUnit:id,name'
         ])
@@ -38,21 +37,16 @@ class ProductsExport implements FromCollection, WithHeadings, WithCustomStartCel
             'selling_price',
             'status',
             'stock',
-            'subcategory_product',
-            'category_products_id',
             'brands_id',
             'measurement_units_id'
         ])
         ->get()
         ->map(function ($sale) {
-            $categoria = trim("{$sale->categoryProduct->name}");
-            $marca = trim("{$sale->brand->name}");
-            $unidad = trim("{$sale->measurementUnit->name}");
+            $marca = trim((string) ($sale->brand->name ?? ''));
+            $unidad = trim((string) ($sale->measurementUnit->name ?? ''));
             $status = $sale->status ? 'Activo' : 'Inactivo';
             return [
                 'id' => $sale->id,
-                'category_products_id' => $categoria,
-                'subcategory_product'  => $sale->subcategory_product,
                 'name_product' => $sale->name_product,
                 'description_long'  => $sale->description_long,
                 'factory_reference' => $sale->factory_reference,
@@ -71,8 +65,6 @@ class ProductsExport implements FromCollection, WithHeadings, WithCustomStartCel
     {
         return [
             'Id',
-            'Categoria',
-            'Subcategoria',
             'Nombre',
             'Descripción',
             'Referencia de Fabrica',
@@ -113,8 +105,8 @@ class ProductsExport implements FromCollection, WithHeadings, WithCustomStartCel
                 $sheet->getDelegate()->getColumnDimension($column->getColumnIndex())->setAutoSize(true);
             }
 
-            // Definir el rango desde A1 hasta L4 para el encabezado
-            $headerRange = 'A1:L3';
+            // Definir el rango desde A1 hasta J4 para el encabezado
+            $headerRange = 'A1:J3';
 
             // Aplicar color azul al encabezado
             $sheet->getDelegate()->getStyle($headerRange)->applyFromArray([
@@ -140,7 +132,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithCustomStartCel
                 ],
             ]);
 
-            $sheet->getDelegate()->getStyle('A5:L5')->applyFromArray([
+            $sheet->getDelegate()->getStyle('A5:J5')->applyFromArray([
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
                     'startColor' => ['argb' => 'd3d3d3'], // Gris claro
@@ -159,24 +151,24 @@ class ProductsExport implements FromCollection, WithHeadings, WithCustomStartCel
             
 
             // Fusionar celdas para el encabezado
-            $sheet->getDelegate()->mergeCells('A1:L1');
+            $sheet->getDelegate()->mergeCells('A1:J1');
             $sheet->setCellValue('A1', 'Informe de Productos');
             $sheet->getStyle('A1')->getFont()->setSize(20); // Tamaño de letra para "Informe de Ventas"
             $sheet->getStyle('A1')->getFont()->setBold(true); // Ajustar a negrita
             $sheet->getStyle('A1')->getAlignment()->setWrapText(true);
             $sheet->getStyle('A1')->getFont()->getColor()->setARGB(Color::COLOR_WHITE); // Letra blanca
 
-            // Agregar "Ferretería La Excelencia" y "NIT 9.524.275" en celdas separadas
-            $sheet->getDelegate()->mergeCells('A2:L2');
+            // Agregar "Ferretería La Excelencia" y "NIT 1.057.599.366" en celdas separadas
+            $sheet->getDelegate()->mergeCells('A2:J2');
             $sheet->setCellValue('A2', 'SERVILED');
             $sheet->getStyle('A2')->getFont()->setSize(16); // Tamaño de letra para "Ferretería La Excelencia"
             $sheet->getStyle('A2')->getFont()->setBold(false); // Ajustar a negrita
             $sheet->getStyle('A2')->getAlignment()->setWrapText(true);
             $sheet->getStyle('A2')->getFont()->getColor()->setARGB(Color::COLOR_WHITE); // Letra blanca
 
-            $sheet->getDelegate()->mergeCells('A3:L3');
-            $sheet->setCellValue('A3', 'NIT 9.524.275');
-            $sheet->getStyle('A3')->getFont()->setSize(14); // Tamaño de letra para "NIT 9.524.275"
+            $sheet->getDelegate()->mergeCells('A3:J3');
+            $sheet->setCellValue('A3', 'NIT ' . config('company.nit'));
+            $sheet->getStyle('A3')->getFont()->setSize(14); // Tamaño de letra para "NIT 1.057.599.366"
             $sheet->getStyle('A3')->getFont()->setBold(false); // Ajustar a negrita
             $sheet->getStyle('A3')->getAlignment()->setWrapText(true);
             $sheet->getStyle('A3')->getFont()->getColor()->setARGB(Color::COLOR_WHITE); // Letra blanca
@@ -193,7 +185,7 @@ class ProductsExport implements FromCollection, WithHeadings, WithCustomStartCel
             ]);
 
             // Formato de miles para las columnas de dinero
-            $sheet->getDelegate()->getStyle('H6:H' . $sheet->getDelegate()->getHighestRow())
+            $sheet->getDelegate()->getStyle('F6:F' . $sheet->getDelegate()->getHighestRow())
                   ->getNumberFormat()->setFormatCode('#,##0');
         },
     ];

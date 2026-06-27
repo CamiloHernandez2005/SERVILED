@@ -45,7 +45,7 @@
                                                 <option value="">Seleccione el producto</option>
                                                 @foreach ($product as $item)
                                                     <option
-                                                        value="{{ $item->id }}-{{ $item->categoryProduct->name }}-{{ $item->status == 1 ? 'Activo' : 'Inactivo' }}">
+                                                        value="{{ $item->id }}-{{ $item->status == 1 ? 'Activo' : 'Inactivo' }}">
                                                         {{ $item->name_product }}</option>
                                                 @endforeach
                                             </select>
@@ -93,15 +93,7 @@
                             <div class="col-12 col-md-6">
                                 <div class="form-group d-flex align-items-center">
                                     <div class="d-flex flex-column flex-grow-1 mr-2 mb-2">
-                                        <label for="categoria" class="form-label fw-bolder">Categoría Del
-                                            Producto</label>
-                                        <input disabled id="name" name="name" class="selectpicker form-control"
-                                            data-live-search="true" style="text-align-last:left;"></input>
-                                    </div>
-                                </div>
-                                <div class="form-group d-flex align-items-center">
-                                    <div class="d-flex flex-column flex-grow-1 mr-2 mb-2">
-                                        <label for="subcategoria" class="form-label fw-bolder">Estado</label>
+                                        <label for="status" class="form-label fw-bolder">Estado</label>
                                         <input disabled id="status" name="status" class="selectpicker form-control"
                                             data-live-search="true" style="text-align-last:left;"></input>
                                     </div>
@@ -115,8 +107,6 @@
                                     id="datatable">
                                     <thead class="table-dark">
                                         <tr class="text-center">
-                                            <th>Categoría</th>
-                                            <th>Subcategoría</th>
                                             <th>Nombre del producto</th>
                                             <th>Referencia de Fabrica</th>
                                             <th>N° Factura</th>
@@ -132,12 +122,6 @@
                                     <tbody>
                                         @foreach ($sales as $ventas)
                                             <tr>
-                                                <td class="text-center">
-                                                    {{ $ventas->product->categoryProduct->name }}
-                                                </td>
-                                                <td class="text-center">
-                                                    {{ $ventas->product->subcategory_product }}
-                                                </td>
                                                 <td class="text-center">
                                                     {{ $ventas->product->name_product }}
                                                 </td>
@@ -189,8 +173,7 @@
         function mostrarValores() {
             let dataProducto = document.getElementById('product_id').value.split('-');
             console.log(dataProducto)
-            $('#name').val(dataProducto[1]);
-            $('#status').val(dataProducto[2]);
+            $('#status').val(dataProducto[1]);
         }
     </script>
     <script>

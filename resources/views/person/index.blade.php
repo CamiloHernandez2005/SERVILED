@@ -24,46 +24,48 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
 
-                                    {{-- Desplegable de opciones --}}
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-expanded="false">Acciones</button>
-                                        <ul class="dropdown-menu">
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('person.create') }}">Crear tercero</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('customer.index') }}">Ver clientes</a>
-                                            </li>
-                                            <li>
-                                                <a class="dropdown-item" href="{{ route('supplier.index') }}">Ver proveedores</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                {{-- Desplegable de opciones --}}
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">Acciones</button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('person.create') }}">Crear tercero</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('customer.index') }}">Ver clientes</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('supplier.index') }}">Ver proveedores</a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <form action="{{ route('person.index') }}" method="get" class="d-flex align-items-center js-dt-export justify-content-end">
 
-                                        {{-- Botones IMPORTAR Y EXPORTAR --}}
+                                <form action="{{ route('person.index') }}" method="GET" class="d-flex align-items-center gap-2 mb-0">
+                                    <input type="text" name="filtervalue" class="form-control" placeholder="Buscar tercero..." value="{{ request('filtervalue') }}">
+                                    <button type="submit" class="btn btn-dark">Buscar</button>
+                                </form>
 
-                                        <button type="button" class="btn btn-success ms-2 rounded" tooltip="tooltip"
-                                            title="Excel" onclick="window.location.href='{{ route('export.person') }}'">
-                                            <i class="fa-solid fa-file-excel"></i>
-                                        </button>
+                                <div class="ms-auto d-flex align-items-center gap-2">
 
-                                        <button type="button" class="btn btn-danger ms-2 rounded" tooltip="tooltip"
-                                            title="PDF" onclick="window.open('{{ route('person.pdf') }}','_blank')">
-                                            <i class="fa-solid fa-file-pdf"></i>
-                                        </button>
+                                    {{-- Botones IMPORTAR Y EXPORTAR --}}
 
-                                        <button type="button" class="btn btn-warning ms-2 rounded" tooltip="tooltip"
-                                            title="Importar" data-bs-toggle="modal" data-bs-target="#importPerson">
-                                            <i class="fa-solid fa-folder-open"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-success rounded" tooltip="tooltip"
+                                        title="Excel" onclick="window.location.href='{{ route('export.person') }}'">
+                                        <i class="fa-solid fa-file-excel"></i>
+                                    </button>
+
+                                    <button type="button" class="btn btn-danger rounded" tooltip="tooltip"
+                                        title="PDF" onclick="window.open('{{ route('person.pdf') }}','_blank')">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </button>
+
+                                    <button type="button" class="btn btn-warning rounded" tooltip="tooltip"
+                                        title="Importar" data-bs-toggle="modal" data-bs-target="#importPerson">
+                                        <i class="fa-solid fa-folder-open"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -154,6 +156,9 @@
 
                                         </tbody>
                                     </table>
+                                    <div class="mt-3 d-flex justify-content-center">
+                                        {{ $people->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

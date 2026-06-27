@@ -44,7 +44,7 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6">
                     <div class="icon-card-default">
                         <div class="content">
-                            <a class="info" href="{{route('sales.index')}}"> 
+                            <a class="info" href="{{route('sales.index')}}">
                                 <h6 class="mb-10">Total de Ventas Realizadas </h6>
                                 <h3 class="text-bold mb-10">{{{$sales}}}</h3>
                             </a>
@@ -257,6 +257,47 @@
         </div>
     </div>
     <br>
+
+    {{-- Modal: pide el valor de caja la primera vez que se ingresa en el dia --}}
+    @if (!$cajaHoy)
+    <div class="modal fade" id="modalCaja" tabindex="-1" aria-labelledby="modalCajaLabel" aria-hidden="true"
+         data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form action="{{ route('caja.store') }}" method="post">
+                    @csrf
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalCajaLabel">
+                            <i class="fa-solid fa-cash-register me-2"></i>Valor de caja del día
+                        </h1>
+                    </div>
+                    <div class="modal-body">
+                        <p>Ingresa el valor que vas a dejar en caja hoy. Solo se pide una vez al día.</p>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="number" name="amount" id="amount_caja" class="form-control @error('amount') is-invalid @enderror"
+                                   placeholder="0" min="0" step="any" required autofocus
+                                   value="{{ old('amount') }}">
+                        </div>
+                        @error('amount')
+                            <small class="text-danger">{{ $message }}</small>
+                        @enderror
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Guardar valor de caja</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var modalCaja = new bootstrap.Modal(document.getElementById('modalCaja'));
+            modalCaja.show();
+        });
+    </script>
+    @endif
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.14.0-beta3/dist/js/bootstrap-select.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>

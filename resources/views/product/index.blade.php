@@ -26,8 +26,8 @@
 
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-2 col-md-2 col-sm-12">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                                <div class="dropdown">
                                     <button type="button" class="btn btn-dark dropdown-toggle dropdown-toggle-split"
                                         data-bs-toggle="dropdown" aria-expanded="false">Acciones
                                         <span class="visually-hidden">Nuevo</span>
@@ -35,80 +35,36 @@
                                     <ul class="dropdown-menu desplegable_acciones">
                                         <div class="acciones_boton">
                                             <li><a class="dropdown-item" href="{{ route('brand.index') }}">Crear Marca</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('category.index') }}">Crear
-                                                    Categoría</a></li>
                                             <li><a class="dropdown-item" href="{{ route('products.create') }}">Crear
                                                     Producto</a></li>
                                         </div>
                                     </ul>
                                 </div>
-                                <div class="col-lg-3 col-md-5 col-sm-12">
-                                    <form action="{{ route('products.index') }}" method="GET">
-                                        <div class="mb-3 row">
-                                            <div class="col-sm-9">
-                                                <select name="category_filter" id="category_filter"
-                                                    class="form-control selectpicker" data-live-search="true">
-                                                    <option value="">Filtrar por Categorias</option>
-                                                    @foreach ($categories as $category)
-                                                        <option value="{{ $category->id }}"
-                                                            {{ request('category_filter') == $category->id ? 'selected' : '' }}>
-                                                            {{ $category->name }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-3 ">
-                                                <button type="submit" class=" btn btn-dark">Filtrar</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-lg-2 col-md-4 col-sm-12">
-                                    <form action="{{ route('products.index') }}" method="GET">
-                                        <div class="mb-3 row">
-                                            <div class="col-sm-6 d-flex ms-3">
-                                                <input name="check" class="form-check-input" type="checkbox"
-                                                    style="padding: 0.7rem; " {{ request('check') ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="checkActivos"
-                                                    style="font-size: 1.1em; padding: 0.2rem; ">Activos</label>
-                                                <button type="submit" class=" btn btn-dark">Filtrar</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-12">
-                                    <form action="{{ route('products.index') }}" method="get">
-                                        <div class="mb-3 row">
-                                            <div class="col-sm-12 d-flex">
-                                                <input name="filtervalue" type="text" class="form-control"
-                                                    aria-label="Text input with segmented dropdown button"
-                                                    placeholder="Buscar Producto....">
-                                                <button type="submit" class=" btn btn-dark  ms-2">Buscar</button>
-                                                <a type="button" class="btn btn-success ms-2 rounded" tooltip="tooltip"
-                                                    title="Excel" href="{{ route('export') }}">
-                                                    <i class="fa-solid fa-file-excel"></i>
-                                                </a>
-                                                <button type="button" class="btn btn-danger ms-2 rounded" tooltip="tooltip"
-                                                    title="PDF"
-                                                    onclick="window.open('{{ route('products.pdf') }}','_blank')">
-                                                    <i class="fa-solid fa-file-pdf"></i>
-                                                </button>
-                                                <button type="button" class="btn btn-warning ms-2 rounded" tooltip="tooltip"
-                                                    title="Importar" data-bs-toggle="modal" data-bs-target="#importProducts">
-                                                    <i class="fa-solid fa-folder-open text-dark"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+
+                                <form action="{{ route('products.index') }}" method="get"
+                                    class="ms-auto d-flex align-items-center gap-2 mb-0">
+                                    <input name="filtervalue" type="text" class="form-control"
+                                        placeholder="Buscar Producto...." value="{{ request('filtervalue') }}">
+                                    <button type="submit" class="btn btn-dark">Buscar</button>
+                                    <a type="button" class="btn btn-success rounded" tooltip="tooltip"
+                                        title="Excel" href="{{ route('export') }}">
+                                        <i class="fa-solid fa-file-excel"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger rounded" tooltip="tooltip"
+                                        title="PDF" onclick="window.open('{{ route('products.pdf') }}','_blank')">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-warning rounded" tooltip="tooltip"
+                                        title="Importar" data-bs-toggle="modal" data-bs-target="#importProducts">
+                                        <i class="fa-solid fa-folder-open text-dark"></i>
+                                    </button>
+                                </form>
                             </div>
                             <div class="table_container">
                                 <div>
                                     <table class="table table-striped table-hover w-100" id="example">
                                         <thead class="table-dark">
                                             <tr>
-                                                <th class="text-center">Categoría </th>
-                                                <th class="text-center">Subcategoría</th>
                                                 <th class="text-center">Nombre</th>
                                                 <th class="text-center">Referencia Fabrica</th>
                                                 <th class="text-center">Clasificación Tributaria</th>
@@ -125,8 +81,6 @@
                                         <tbody>
                                             @foreach ($productos as $producto)
                                                 <tr>
-                                                    <td class="text-center">{{ $producto->categoryProduct->name }}</td>
-                                                    <td class="text-center">{{ $producto->subcategory_product }}</td>
                                                     <td class="text-center">{{ $producto->name_product }}</td>
                                                     <td class="text-center">{{ $producto->factory_reference }}</td>
                                                     <td class="text-center">{{ $producto->classification_tax }}</td>
@@ -134,8 +88,8 @@
                                                         ${{ number_format($producto->purchase_price, 0, ',', '.') }}</td>
                                                     <td class="text-center">
                                                         ${{ number_format($producto->selling_price, 0, ',', '.') }}</td>
-                                                    <td class="text-center">{{ $producto->brand->name }}</td>
-                                                    <td class="text-center">{{ $producto->measurementUnit->name }}</td>
+                                                    <td class="text-center">{{ $producto->brand?->name ?? '-' }}</td>
+                                                    <td class="text-center">{{ $producto->measurementUnit?->name ?? '-' }}</td>
                                                     <td class="text-center">
                                                         @if ($producto->stock < 5)
                                                             <span class="badge rounded-pill bg-danger fs-6"
@@ -188,6 +142,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="mt-3 d-flex justify-content-center">
+                                    {{ $productos->links() }}
+                                </div>
                             </div>
                         </div>
                         {{-- Script  para mostrar la notificacion --}}
@@ -219,9 +176,11 @@
         <script>
             new DataTable('#example', {
                 responsive: true,
-                lengthChange: true,
-                // paging: false,
+                paging: false,
+                info: false,
+                lengthChange: false,
                 searching: false,
+                ordering: false,
                 language: {
                     "sProcessing": "Procesando...",
                     "sLengthMenu": "Mostrar _MENU_ registros",

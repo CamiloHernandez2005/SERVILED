@@ -45,7 +45,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span title="Proveedor" class="input-group-text" id="icon-form"><i class="fa-solid fa-user-tie"></i></span>
-                            <input disabled type="text" class="form-control" value="{{ optional($detailPurchase->purchaseSupplier->person)->identification_number ?? 'nn' }}">
+                            <input disabled type="text" class="form-control" value="{{ optional($detailPurchase->purchaseSupplier->person)->identification_number ?? 'Sin proveedor' }}">
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                     <div class="col-sm-6">
                         <div class="input-group">
                             <span title="Empleado A Cargo" class="input-group-text" id="icon-form"><i class="fa-solid fa-user"></i></span>
-                            <input disabled type="text" class="form-control" value="{{ $detailPurchase->purchaseSupplier->user->identification_number }}">
+                            <input disabled type="text" class="form-control" value="{{ $detailPurchase->purchaseSupplier->user->name ?? 'Sin empleado' }}">
                         </div>
                     </div>
                 </div>

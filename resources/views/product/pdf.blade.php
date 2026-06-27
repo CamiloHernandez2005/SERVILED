@@ -13,14 +13,12 @@
         </div>
         <img src="{{ public_path('img/logo.png') }}" class="imgPDF">
         <h1 class="FerreteriaEx">SERVILED</h1>
-        <p>NIT 9.524.275</p>
+        <p>NIT {{ config('company.nit') }}</p>
     </div>
 <br>
 <table>
     <thead>
         <tr>
-            <th>Categoría </th>
-            <th>Subcategoría</th>
             <th>Nombre</th>
             <th>Referencia Fabrica</th>
             <th>Clasificación tributaria</th>
@@ -35,15 +33,13 @@
     <tbody>
         @foreach ($productos as $producto)
             <tr >
-                <td style="text-align: center">{{ $producto->categoryProduct->name}}</td>
-                <td style="text-align: center">{{ $producto->subcategory_product}}</td>
                 <td style="text-align: center">{{ $producto->name_product }}</td>
                 <td style="text-align: center">{{ $producto->factory_reference }}</td>
                 <td style="text-align: center">{{ $producto->classification_tax }}</td>
                 <td style="text-align: center">{{ number_format($producto->purchase_price, 0, ",", ".") }}</td>
                 <td style="text-align: center">{{ number_format($producto->selling_price, 0, ",", ".") }}</td>
-                <td style="text-align: center">{{ $producto->brand->name }}</td>
-                <td style="text-align: center">{{ $producto->measurementUnit->name }}</td>
+                <td style="text-align: center">{{ $producto->brand?->name ?? '-' }}</td>
+                <td style="text-align: center">{{ $producto->measurementUnit?->name ?? '-' }}</td>
                 <td style="text-align: center">
                     @if ($producto->stock < 5)
                         <span class="badge rounded-pill bg-danger" style="font-size: 14px" tooltip="tooltip"

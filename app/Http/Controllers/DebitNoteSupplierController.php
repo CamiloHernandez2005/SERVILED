@@ -33,7 +33,8 @@ class debitNoteSupplierController extends Controller
             ->groupBy('purchase_suppliers_id')
             ->pluck('id');
 
-        $debitNoteSuppliers = DebitNoteSupplier::whereIn('id', $uniqueDebitNoteSupplierIds)
+        $debitNoteSuppliers = DebitNoteSupplier::with(['detailPurchase', 'purchaseSupplier.person'])
+            ->whereIn('id', $uniqueDebitNoteSupplierIds)
             ->when($filtervalue, function ($query) use ($filtervalue, $status) {
                 $filtervalue = strtolower($filtervalue);
                 return $query->whereRaw('LOWER(debit_note_code) LIKE ?', ['%' . $filtervalue . '%'])
@@ -57,7 +58,9 @@ class debitNoteSupplierController extends Controller
                             });
                     });
             })
-            ->get();
+            ->orderBy('id', 'desc')
+            ->paginate(25)
+            ->withQueryString();
 
         return view('debit-note-supplier.index', compact('debitNoteSuppliers'));
     }

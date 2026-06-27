@@ -17,15 +17,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property $photo
  * @property $status
  * @property $stock
- * @property $subcategory_product
- * @property $category_products_id
  * @property $brands_id
  * @property $measurement_units_id
  * @property $created_at
  * @property $updated_at
  *
  * @property Brand $brand
- * @property CategoryProduct $categoryProduct
  * @property MeasurementUnit $measurementUnit
  * @package App
  * @mixin \Illuminate\Database\Eloquent\Builder
@@ -39,10 +36,6 @@ class Product extends Model
 		'factory_reference' => 'required',
 		'classification_tax' => 'required',
         'selling_price' => 'required',
-        'subcategory_product' => 'required',
-		'category_products_id' => 'required',
-		'brands_id' => 'required',
-		'measurement_units_id' => 'required',
     ];
 
     protected $perPage = 20;
@@ -52,7 +45,7 @@ class Product extends Model
      *
      * @var array
      */
-    protected $fillable = ['name_product','description_long','factory_reference','classification_tax','selling_price','photo','subcategory_product','category_products_id','brands_id','measurement_units_id'];
+    protected $fillable = ['name_product','description_long','factory_reference','classification_tax','selling_price','photo','brands_id','measurement_units_id'];
 
 
     /**
@@ -61,14 +54,6 @@ class Product extends Model
     public function brand()
     {
         return $this->hasOne('App\Models\Brand', 'id', 'brands_id');
-    }
-    
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function categoryProduct()
-    {
-        return $this->hasOne('App\Models\CategoryProduct', 'id', 'category_products_id');
     }
     
     /**

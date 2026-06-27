@@ -13,7 +13,7 @@
         </div>
         <img src="{{ public_path('img/logo.png') }}" class="imgPDF">
         <h1 class="FerreteriaEx">SERVILED</h1>
-        <p>NIT 9.524.275</p>
+        <p>NIT {{ config('company.nit') }}</p>
     </div>
 <br>
 <table id="datatable" class="table table-striped table-hover" style="width:100%">

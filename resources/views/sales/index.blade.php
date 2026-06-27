@@ -20,46 +20,64 @@
                                 </h2>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="d-flex flex-wrap align-items-end gap-2 mb-3">
+                                    {{-- Desplegable de opciones --}}
+                                    <div class="dropdown">
+                                        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                                            aria-expanded="false">Acciones</button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="{{ route('sales.create') }}">Crear venta</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('credit-note-sales.create') }}">Crear nota crédito</a></li>
+                                            <li><a class="dropdown-item" href="{{ route('credit-note-sales.index') }}">Mostrar nota crédito</a></li>
+                                        </ul>
+                                    </div>
 
-                                        {{-- Desplegable de opciones --}}
-                                        <div class="dropdown">
-                                            <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                                aria-expanded="false">Acciones</button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('sales.create') }}">Crear
-                                                        venta</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('credit-note-sales.create') }}">Crear
-                                                        nota crédito</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('credit-note-sales.index') }}">Mostrar
-                                                        nota crédito</a></li>
-                                            </ul>
+                                    {{-- Filtro: búsqueda + rango de fechas --}}
+                                    <form action="{{ route('sales.index') }}" method="GET" class="d-flex flex-wrap align-items-end gap-2 mb-0">
+                                        <div>
+                                            <label class="form-label mb-0 small">Buscar</label>
+                                            <input type="text" name="filtervalue" class="form-control" placeholder="Buscar venta..." value="{{ request('filtervalue') }}">
+                                        </div>
+                                        <div>
+                                            <label class="form-label mb-0 small">Desde</label>
+                                            <input type="date" name="fecha_inicio" class="form-control" value="{{ request('fecha_inicio') }}">
+                                        </div>
+                                        <div>
+                                            <label class="form-label mb-0 small">Hasta</label>
+                                            <input type="date" name="fecha_fin" class="form-control" value="{{ request('fecha_fin') }}">
+                                        </div>
+                                        <button type="submit" class="btn btn-dark">Buscar</button>
+                                        <a href="{{ route('sales.index') }}" class="btn btn-outline-secondary">Limpiar</a>
+                                    </form>
+
+                                    {{-- Botones EXPORTAR --}}
+                                    <div class="ms-auto d-flex align-items-center gap-2">
+                                        <button type="button" class="btn btn-success rounded" tooltip="tooltip"
+                                            title="Excel" onclick="window.location.href='{{ route('export.sale') }}'">
+                                            <i class="fa-solid fa-file-excel"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger rounded" tooltip="tooltip"
+                                            title="PDF" onclick="window.open('{{ route('sales.pdf') }}','_blank')">
+                                            <i class="fa-solid fa-file-pdf"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {{-- Totales del rango/filtro seleccionado --}}
+                                <div class="row mb-3">
+                                    <div class="col-md-6 mb-2">
+                                        <div class="alert alert-success d-flex justify-content-between align-items-center mb-0">
+                                            <span><i class="fa-solid fa-cash-register me-2"></i>Total Ventas</span>
+                                            <strong>${{ number_format($totalVentas, 0, ',', '.') }}</strong>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-12">
-                                        <form action="{{ route('sales.index') }}" method="get" class="d-flex align-items-center js-dt-export">
-
-                                            {{-- Botones IMPORTAR Y EXPORTAR --}}
-
-                                            <button type="button" class="btn btn-success ms-2 rounded" tooltip="tooltip"
-                                                title="Excel" onclick="window.location.href='{{ route('export.sale') }}'">
-                                                <i class="fa-solid fa-file-excel"></i>
-                                            </button>
-
-                                            <button type="button" class="btn btn-danger ms-2 rounded" tooltip="tooltip"
-                                                title="PDF" onclick="window.open('{{ route('sales.pdf') }}','_blank')">
-                                                <i class="fa-solid fa-file-pdf"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-warning ms-2 rounded" tooltip="tooltip"
-                                                title="Importar" data-bs-toggle="modal" data-bs-target="#importPerson">
-                                                <i class="fa-solid fa-folder-open"></i>
-                                            </button>
-                                        </form>
+                                    <div class="col-md-6 mb-2">
+                                        <div class="alert alert-primary d-flex justify-content-between align-items-center mb-0">
+                                            <span><i class="fa-solid fa-arrow-trend-up me-2"></i>Total Ganancias</span>
+                                            <strong>${{ number_format($totalGanancias, 0, ',', '.') }}</strong>
+                                        </div>
                                     </div>
-
                                 </div>
-                                <br>
 
                 <div>
                     <table class="table table-striped table-hover w-100" id="datatable">
@@ -74,6 +92,7 @@
                                         <th>IVA</th>
                                         <th>Total Descuentos</th>
                                         <th>Total Factura</th>
+                                        <th>Ganancias</th>
                                         <th>Estado</th>
                                         <th>Acciones</th>
                                     </tr>
@@ -90,6 +109,7 @@
                                         <td>${{ number_format($sale->taxes_total, 0, ',', '.') }}</td>
                                         <td>${{ number_format($sale->total_discounts, 0, ',', '.') }}</td>
                                         <td>${{ number_format($sale->net_total, 0, ',', '.') }}</td>
+                                        <td>${{ number_format($sale->total_profit, 0, ',', '.') }}</td>
                                         <td>
                                             @if($sale->status == True)
                                             <p class="badge rounded-pill bg-success fs-6">Activo</p>
@@ -147,6 +167,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <div class="mt-3 d-flex justify-content-center">
+                                {{ $ventasFiltradas->links() }}
+                            </div>
                         </div>
 
 

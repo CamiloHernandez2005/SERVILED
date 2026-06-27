@@ -1,5 +1,5 @@
 services:
-    # Aplicación Laravel (PHP + Apache)
+    # Aplicación Laravel (servidor PHP integrado, sirve /public)
     app:
         build: .
         container_name: serviled_app
@@ -7,7 +7,8 @@ services:
         ports:
             - "8080:8080"        # Tu PC accede en http://localhost:8080
         depends_on:
-            - db
+            db:
+                condition: service_healthy   # espera a que MySQL esté listo
         environment:
             DB_HOST: db          # nombre del servicio de la base de datos
             DB_PORT: 3306
@@ -17,6 +18,7 @@ services:
         volumes:
             - ./:/var/www/html
             - /var/www/html/vendor   # mantiene el vendor del contenedor (Linux)
+            - ./.env.docker:/var/www/html/.env   # .env propio del contenedor (DB_HOST=db)
         networks:
             - serviled
 
@@ -28,6 +30,11 @@ services:
         environment:
             MYSQL_ROOT_PASSWORD: rootsecret
             MYSQL_DATABASE: db_hardware
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootsecret"]
+            interval: 5s
+            timeout: 5s
+            retries: 20
         ports:
             - "3307:3306"        # opcional: conectar DBeaver a localhost:3307
         volumes:

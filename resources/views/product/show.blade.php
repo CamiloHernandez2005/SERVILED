@@ -83,42 +83,6 @@
                                                 <tr>
                                                     <td>
                                                         <div class="input-group" id="hide-group">
-                                                            <span class="input-group-text"><i
-                                                                    class='bx bxs-category'></i></span>
-                                                            <input disabled type="text" class="form-control"
-                                                                value="Categoría: ">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group" id="hide-group">
-                                                            <span class="input-group-text"><i
-                                                                    class='bx bxs-category'></i></span>
-                                                            <input disabled type="text" class="form-control"
-                                                                value="{{ $producto->categoryProduct->name ?? 'N/A' }}">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group" id="hide-group">
-                                                            <span class="input-group-text"><i
-                                                                    class='bx bxs-category-alt'></i></span>
-                                                            <input disabled type="text" class="form-control"
-                                                                value="Subcategoría: ">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group" id="hide-group">
-                                                            <span class="input-group-text"><i
-                                                                    class='bx bxs-category-alt'></i></span>
-                                                            <input disabled type="text" class="form-control"
-                                                                value="{{ $producto->subcategory_product }}">
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="input-group" id="hide-group">
                                                             <span class="input-group-text"><i class='bx bx-hive'></i></span>
                                                             <input disabled type="text" class="form-control"
                                                                 value="Existencias: ">
@@ -146,7 +110,7 @@
                                                             <span class="input-group-text"><i
                                                                     class="fa-solid fa-cube"></i></span>
                                                             <input disabled type="text" class="form-control"
-                                                                value="{{ $producto->measurementUnit->name }}">
+                                                                value="{{ $producto->measurementUnit?->name ?? 'N/A' }}">
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -250,7 +214,7 @@
                                                         <div class="input-group" id="hide-group">
                                                             <span class="input-group-text"><i class='bx bxs-label'></i></span>
                                                             <input disabled type="text" class="form-control"
-                                                                value=" {{ $producto->brand->name }} ">
+                                                                value=" {{ $producto->brand?->name ?? 'N/A' }} ">
                                                         </div>
                                                     </td>
                                                 </tr>

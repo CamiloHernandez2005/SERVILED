@@ -22,13 +22,6 @@
       'Breadcrumbs' => 'Diglactic\\Breadcrumbs\\Breadcrumbs',
     ),
   ),
-  'ibex/crud-generator' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Ibex\\CrudGenerator\\CrudServiceProvider',
-    ),
-  ),
   'jantinnerezo/livewire-alert' => 
   array (
     'providers' => 
@@ -38,13 +31,6 @@
     'aliases' => 
     array (
       'LivewireAlert' => 'Jantinnerezo\\LivewireAlert\\LivewireAlertFacade',
-    ),
-  ),
-  'laravel/sail' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Sail\\SailServiceProvider',
     ),
   ),
   'laravel/sanctum' => 
@@ -109,13 +95,6 @@
       0 => 'Carbon\\Laravel\\ServiceProvider',
     ),
   ),
-  'nunomaduro/collision' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    ),
-  ),
   'nunomaduro/termwind' => 
   array (
     'providers' => 
@@ -135,17 +114,6 @@
     'providers' => 
     array (
       0 => 'Spatie\\Backup\\BackupServiceProvider',
-    ),
-  ),
-  'spatie/laravel-ignition' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
     ),
   ),
   'spatie/laravel-permission' => 

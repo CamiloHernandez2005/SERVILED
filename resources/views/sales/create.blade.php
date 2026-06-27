@@ -34,7 +34,7 @@
                                     <div class="col-12">
                                         <select name="product_id" id="product_id" class="form-control selectpicker" data-live-search="true" data-size="3" title="Busque un producto aquí">
                                             @foreach ($products as $item)
-                                            <option value="{{$item->id}}-{{$item->stock}}-{{$item->selling_price}}-{{$item->classification_tax}}-{{$item->factory_reference}}">{{$item->name_product}}</option>
+                                            <option data-purchase="{{ $item->purchase_price }}" value="{{$item->id}}-{{$item->stock}}-{{$item->selling_price}}-{{$item->classification_tax}}-{{$item->factory_reference}}">{{$item->name_product}}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -84,7 +84,8 @@
                                                         <th>Descuento</th>
                                                         <th>%</th>
                                                         <th>Iva</th>
-                                                        <th>Precio unitario de venta</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Ganancia</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -122,8 +123,9 @@
                                                             <td>
                                                                 {{ old('arrayprecioventa')[$index] * old('arraycantidad')[$index] }}
                                                             </td>
+                                                            <td></td>
                                                             <td>
-                                                                <button class="btn btn-danger" type="button" onClick="eliminarProducto('{{ $index }}', '{{ old('arrayprecioventa')[$index] * old('arraycantidad')[$index] }}', '{{ old('arrayimpuestoval')[$index] }}', '{{ old('arraydescuento')[$index] }}')">
+                                                                <button class="btn btn-danger" type="button" onClick="eliminarProducto('{{ $index }}', '{{ old('arrayprecioventa')[$index] * old('arraycantidad')[$index] }}', '{{ old('arrayimpuestoval')[$index] }}', '{{ old('arraydescuento')[$index] }}', 0)">
                                                                     <i class="fa-solid fa-trash"></i>
                                                                 </button>
                                                             </td>
@@ -133,28 +135,33 @@
                                                 <tfoot>
                                                     <tr>
                                                         <th></th>
-                                                        <th colspan="6">Subtotal</th>
+                                                        <th colspan="7">Subtotal</th>
                                                         <th colspan="2"><input type="hidden" name="subtotal" value="0" id="inputSubtotal"><span id="subtotal">0</span></th>
                                                     </tr>
                                                     <tr>
                                                         <th></th>
-                                                        <th colspan="6">Total Descuentos</th>
+                                                        <th colspan="7">Total Descuentos</th>
                                                         <th colspan="2"><input type="hidden" name="total_discounts" value="0" id="inputTotal_discounts"><span id="total_discounts">0</span></th>
                                                     </tr>
                                                     <tr>
                                                         <th></th>
-                                                        <th colspan="6">Total Bruto</th>
+                                                        <th colspan="7">Total Bruto</th>
                                                         <th colspan="2"><input type="hidden" name="gross_totals" value="0" id="inputGross"><span id="gross_totals">0</span></th>
                                                     </tr>
                                                     <tr>
                                                         <th></th>
-                                                        <th colspan="6">IVA</th>
+                                                        <th colspan="7">IVA</th>
                                                         <th colspan="2"><input type="hidden" name="taxes_total" value="0" id="inputTaxes"><span id="taxes_total">0</span></th>
                                                     </tr>
                                                     <tr>
                                                         <th></th>
-                                                        <th colspan="6">Total Factura</th>
+                                                        <th colspan="7">Total Factura</th>
                                                         <th colspan="2"> <input type="hidden" name="net_total" value="0" id="inputTotal"><span id="net_total">0</span></th>
+                                                    </tr>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th colspan="7">Total Ganancias</th>
+                                                        <th colspan="2"><span id="total_ganancias">0</span></th>
                                                     </tr>
                                                 </tfoot>
                                             </table>
@@ -294,6 +301,7 @@
         let igv = 0;
         let total = 0;
         let totalDescuentos = 0;
+        let totalGanancias = 0;
 
         // Formato colombiano: $2.856.000 (punto de miles, sin decimales)
         function formatoMoneda(valor) {
@@ -323,7 +331,8 @@
             let stock = $('#stock').val();
             let factoryreference = $('#factory_reference').val();
             let impuesto = parseFloat(dataProducto[3]);
-            
+            let precioCompra = parseFloat($('#product_id option:selected').data('purchase')) || 0;
+
 
             if (descuento === '') {
                 descuento = 0;
@@ -353,6 +362,10 @@
                         let totalbruto = round(sumas - totalDescuentos);
                         total = round(totalbruto + igv);
 
+                        // Ganancia = (precio_venta * cantidad) - descuento - (precio_compra * cantidad)
+                        let ganancia = round((precioVenta * cantidad) - parseFloat(descuento) - (precioCompra * cantidad));
+                        totalGanancias += ganancia;
+
                         let fila = '<tr id="fila' + cont + '">' +
                             '<th>' + (cont + 1) + '</th>' +
                             '<td><input type="hidden" name="arrayidproducto[]" value="' + idProducto + '">' + nameProducto + '</td>' +
@@ -363,7 +376,8 @@
                             '<td><input type="hidden" name="arrayimpuesto[]" value="' + impuesto + '">' + impuesto + '%</td>' +
                             '<td><input type="hidden" name="arrayimpuestoval[]" value="' + impuestoval + '">' + formatoMoneda(impuestoval) + '</td>' +
                             '<td>' + formatoMoneda(subtotalProducto) + '</td>' +
-                            '<td><button class="btn btn-danger" type="button" onClick="eliminarProducto(' + cont + ', ' + subtotalProducto + ', ' + impuestoval + ', ' + descuento + ')"><i class="fa-solid fa-trash"></i></button></td>' +
+                            '<td>' + formatoMoneda(ganancia) + '</td>' +
+                            '<td><button class="btn btn-danger" type="button" onClick="eliminarProducto(' + cont + ', ' + subtotalProducto + ', ' + impuestoval + ', ' + descuento + ', ' + ganancia + ')"><i class="fa-solid fa-trash"></i></button></td>' +
                             '</tr>';
 
                         $('#tabla_detalle').append(fila);
@@ -383,10 +397,11 @@
             }
         }
 
-        function eliminarProducto(index, subtotalProducto, impuestoval, descuento) {
+        function eliminarProducto(index, subtotalProducto, impuestoval, descuento, ganancia) {
             sumas -= subtotalProducto;
             igv -= impuestoval;
             totalDescuentos -= parseFloat(descuento);
+            totalGanancias -= parseFloat(ganancia) || 0;
             let totalbruto = round(sumas - totalDescuentos);
             total = round(totalbruto + igv);
 
@@ -404,6 +419,7 @@
             igv = 0;
             total = 0;
             totalDescuentos = 0;
+            totalGanancias = 0;
 
             actualizarTotales();
             limpiarCampos();
@@ -421,6 +437,7 @@
             $('#inputTotal').val(total);
             $('#total_discounts').html(formatoMoneda(totalDescuentos));
             $('#inputTotal_discounts').val(totalDescuentos);
+            $('#total_ganancias').html(formatoMoneda(totalGanancias));
 
             disableButtons();
         }

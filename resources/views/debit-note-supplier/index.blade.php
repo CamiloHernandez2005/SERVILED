@@ -24,38 +24,39 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">Acciones</button>
+                                    <ul class="dropdown-menu">
 
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-expanded="false">Acciones</button>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a class="dropdown-item"
-                                                href="{{ route('debit-note-supplier.create') }}">Crear nota débito
-                                            </a></li>
-                                            <li><a class="dropdown-item" href="{{ route('detail-purchases.create') }}">Crear Compra
-                                            </a></li>
+                                        <li><a class="dropdown-item"
+                                            href="{{ route('debit-note-supplier.create') }}">Crear nota débito
+                                        </a></li>
+                                        <li><a class="dropdown-item" href="{{ route('detail-purchases.create') }}">Crear Compra
+                                        </a></li>
 
 
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('detail-purchases.index') }}">Mostrar Compras</a></li>
-                                        </ul>
-                                    </div>
+                                        <li><a class="dropdown-item"
+                                                href="{{ route('detail-purchases.index') }}">Mostrar Compras</a></li>
+                                    </ul>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                <form action="{{ route('debit-note-supplier.index') }}" method="GET" class="d-flex align-items-center gap-2 mb-0">
+                                    <input type="text" name="filtervalue" class="form-control" placeholder="Buscar nota débito..." value="{{ request('filtervalue') }}">
+                                    <button type="submit" class="btn btn-dark">Buscar</button>
+                                </form>
+                                <div class="ms-auto d-flex align-items-center gap-2">
                                     <form action="{{ route('debit-note-supplier.index') }}" method="get"
-                                        class="d-flex align-items-center js-dt-export">
-                                        <button type="button" class="btn btn-success ms-2 rounded" tooltip="tooltip"
+                                        class="d-flex align-items-center gap-2 mb-0 js-dt-export">
+                                        <button type="button" class="btn btn-success rounded" tooltip="tooltip"
                                             title="Excel" onclick="window.location.href='{{ route('export.debitnote') }}'">
                                             <i class="fa-solid fa-file-excel"></i>
                                         </button>
-                                        <button type="button" class="btn btn-danger ms-2 rounded" tooltip="tooltip"
+                                        <button type="button" class="btn btn-danger rounded" tooltip="tooltip"
                                             title="PDF" onclick="window.open('{{ route('debit-note-supplier.pdf') }}','_blank')">
                                             <i class="fa-solid fa-file-pdf"></i>
                                         </button>
-                                        <button type="button" class="btn btn-warning ms-2 rounded" tooltip="tooltip"
+                                        <button type="button" class="btn btn-warning rounded" tooltip="tooltip"
                                             title="Importar" data-bs-toggle="modal" data-bs-target="#importPerson">
                                             <i class="fa-solid fa-folder-open"></i>
                                         </button>
@@ -164,6 +165,9 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    <div class="mt-3 d-flex justify-content-center">
+                                        {{ $debitNoteSuppliers->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>

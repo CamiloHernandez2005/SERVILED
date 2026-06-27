@@ -39,9 +39,9 @@ class CreditNoteSalesController extends Controller
             });
         }
     
-        // Obtener los resultados de la consulta
-        $ventasFiltradas = $ventas->get();
-    
+        // Obtener los resultados de la consulta paginados
+        $ventasFiltradas = $ventas->orderBy('id', 'desc')->paginate(25)->withQueryString();
+
         // Devolver la vista con las ventas filtradas
         return view('credit-note-sales.index', compact('ventasFiltradas'));
     }

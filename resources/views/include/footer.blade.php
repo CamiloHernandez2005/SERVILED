@@ -12,7 +12,7 @@
         <table class="table_footer">
             <tr>
                 <td class="td_copy">
-                    <p class="texto_copy">Copyright &copy; 2026 SERVILED · Materiales Eléctricos · Iluminación LED. Diseñado por <span class="spanTory">ToryTech</span></p>
+                    <p class="texto_copy">Copyright &copy; 2026 SERVILED · Materiales Eléctricos · Iluminación LED. Diseñado por <span class="spanTory">Camilo Hernández</span></p>
                 </td>
                 <td class="td_informacion">
                 <div class="icono_footer">

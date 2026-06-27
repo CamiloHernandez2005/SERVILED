@@ -20,43 +20,42 @@
                             </h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    {{--  Desplegable de opciones  --}}
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+                                {{--  Desplegable de opciones  --}}
 
-                                    <div class="dropdown">
-                                        <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
-                                            aria-expanded="false">Acciones</button>
-                                            <ul class="dropdown-menu">
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ route('person.create') }}">Crear Tercero</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ route('supplier.index') }}">Ver proveedores</a>
-                                                </li>
-                                                <li>
-                                                    <a class="dropdown-item" href="{{ route('person.index')}}">Ver tabla general de terceros</a>
-                                                </li>
-                                            </ul>
-                                    </div>
+                                <div class="dropdown">
+                                    <button type="button" class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">Acciones</button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('person.create') }}">Crear Tercero</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('supplier.index') }}">Ver proveedores</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('person.index')}}">Ver tabla general de terceros</a>
+                                            </li>
+                                        </ul>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <form action="{{ route('customer.index') }}" method="get"
-                                        class="d-flex align-items-center js-dt-export justify-content-end">
 
-                                        {{-- Botones EXPORTAR --}}
+                                <form action="{{ route('customer.index') }}" method="GET" class="d-flex align-items-center gap-2 mb-0">
+                                    <input type="text" name="filtervalue" class="form-control" placeholder="Buscar cliente..." value="{{ request('filtervalue') }}">
+                                    <button type="submit" class="btn btn-dark">Buscar</button>
+                                </form>
 
-                                        <button type="button" class="btn btn-success ms-2 rounded" data-bs-toggle="tooltip"
-                                            title="Excel" onclick="window.location.href='{{ route('export.customer') }}'">
-                                            <i class="fa-solid fa-file-excel"></i>
-                                        </button>
+                                <div class="ms-auto d-flex align-items-center gap-2">
+                                    {{-- Botones EXPORTAR --}}
 
-                                        <button type="button" class="btn btn-danger ms-2 rounded" tooltip="tooltip"
-                                            title="PDF" onclick="window.open('{{ route('customer.pdf') }}','_blank')">
-                                            <i class="fa-solid fa-file-pdf"></i>
-                                        </button>
+                                    <button type="button" class="btn btn-success rounded" data-bs-toggle="tooltip"
+                                        title="Excel" onclick="window.location.href='{{ route('export.customer') }}'">
+                                        <i class="fa-solid fa-file-excel"></i>
+                                    </button>
 
-                                    </form>
+                                    <button type="button" class="btn btn-danger rounded" tooltip="tooltip"
+                                        title="PDF" onclick="window.open('{{ route('customer.pdf') }}','_blank')">
+                                        <i class="fa-solid fa-file-pdf"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -162,12 +161,14 @@
                                             <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
                                         </tbody>
                                     </table>
+                                    <div class="mt-3 d-flex justify-content-center">
+                                        {{ $clientes->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{--  {!! $people->links() !!}  --}}
             </div>
 
         @include('customer.modal')
